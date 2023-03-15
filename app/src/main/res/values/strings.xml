@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">cryptoapp</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_simulator">Simulador</string>
+    <string name="menu_wallet">Carteira</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

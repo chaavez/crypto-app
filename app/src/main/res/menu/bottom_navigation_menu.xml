@@ -3,12 +3,12 @@
     <item
         android:id="@+id/menu_home"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_charts"
         android:title="@string/menu_home"/>
     <item
         android:id="@+id/menu_simulator"
         android:enabled="true"
-        android:icon="@drawable/ic_simulator"
+        android:icon="@drawable/ic_calculate"
         android:title="@string/menu_simulator"/>
     <item
         android:id="@+id/menu_wallet"

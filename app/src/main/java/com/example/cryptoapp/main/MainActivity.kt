@@ -1,10 +1,11 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

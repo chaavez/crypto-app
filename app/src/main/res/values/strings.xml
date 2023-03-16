@@ -1,8 +1,18 @@
 <resources>
+    <!--App-->
     <string name="app_name">cryptoapp</string>
 
+    <!--BottomBar-->
     <string name="menu_home">Home</string>
     <string name="menu_simulator">Simulador</string>
     <string name="menu_wallet">Carteira</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Home-->
+    <string name="home_title">Home</string>
+
+    <!--Simulator-->
+    <string name="simulator_title">Simulador</string>
+
+    <!--Wallet-->
+    <string name="wallet_title">Carteira</string>
 </resources>

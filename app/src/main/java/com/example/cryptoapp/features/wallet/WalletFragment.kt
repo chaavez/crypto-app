@@ -19,7 +19,12 @@ class WalletFragment : Fragment() {
         _binding = FragmentWalletBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.toolbar.titleTextView.text = getString(R.string.wallet_title)
+        setupLayout()
+
         return root
+    }
+
+    private fun setupLayout() {
+        binding.toolbar.titleTextView.text = getString(R.string.wallet_title)
     }
 }

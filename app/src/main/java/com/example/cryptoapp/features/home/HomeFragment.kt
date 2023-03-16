@@ -19,7 +19,12 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.toolbar.titleTextView.text = getString(R.string.home_title)
+        setupLayout()
+
         return root
+    }
+
+    private fun setupLayout() {
+        binding.toolbar.titleTextView.text = getString(R.string.home_title)
     }
 }

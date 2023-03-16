@@ -19,7 +19,12 @@ class SimulatorFragment : Fragment() {
         _binding = FragmentSimulatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.toolbar.titleTextView.text = getString(R.string.simulator_title)
+        setupLayout()
+
         return root
+    }
+
+    private fun setupLayout() {
+        binding.toolbar.titleTextView.text = getString(R.string.simulator_title)
     }
 }

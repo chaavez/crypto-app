@@ -11,19 +11,23 @@ import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-    lateinit var navHostFragment: NavHostFragment
-    lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        initNavigation()
+        setupBiding()
+        setupBottomNavigation()
     }
 
-    private fun initNavigation() {
+    private fun setupBiding() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    private fun setupBottomNavigation() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment) as NavHostFragment
         navController = navHostFragment.navController
 

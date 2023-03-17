@@ -15,20 +15,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></include>
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:id="@+id/most_valued_recycler_view"
+        android:layout_width="419dp"
+        android:layout_height="411dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/most_valued" />
+        app:layout_constraintTop_toBottomOf="@+id/most_valued_text_view" />
 
     <TextView
-        android:id="@+id/most_valued"
+        android:id="@+id/most_valued_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -38,7 +37,7 @@
         android:textColor="@color/tertiary_100"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+        app:layout_constraintTop_toBottomOf="@+id/highlights_recycler_view" />
 
     <TextView
         android:id="@+id/highlights_text_view"
@@ -54,9 +53,9 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
-        android:layout_width="408dp"
-        android:layout_height="197dp"
+        android:id="@+id/highlights_recycler_view"
+        android:layout_width="410dp"
+        android:layout_height="160dp"
         android:layout_marginTop="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

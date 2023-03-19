@@ -1,6 +1,8 @@
 package com.example.cryptoapp.features.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.models.Asset
-import com.example.cryptoapp.models.Mock
 import com.example.cryptoapp.models.MostValuedAdapter
 import com.example.cryptoapp.services.network.NetworkTask
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
-import java.io.BufferedInputStream
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -51,8 +47,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun addAssets() {
-        getAssets { it
-            this.mostValuedAdapter.setAssets(it)
+        getAssets { assets ->
+            this.mostValuedAdapter.setAssets(assets)
+            val handler = Handler(Looper.getMainLooper())
+            handler.post {
+                this.mostValuedAdapter.notifyDataSetChanged()
+            }
         }
     }
 
@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                 val temporaryAsset = jsonArray.getJSONObject(i)
                 val asset = Asset(
                     temporaryAsset.getString("symbol"),
-                    temporaryAsset.getString("nome"),
+                    temporaryAsset.getString("name"),
                     temporaryAsset.getString("icon"),
                     temporaryAsset.getDouble("price"),
                     temporaryAsset.getDouble("variation"),

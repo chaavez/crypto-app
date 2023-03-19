@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.databinding.AssetViewHolderBinding
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.models.Asset
-import com.example.cryptoapp.models.AssetViewHolder
 import com.example.cryptoapp.models.Mock
 import com.example.cryptoapp.models.MostValuedAdapter
-
+import com.example.cryptoapp.services.network.NetworkTask
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.BufferedInputStream
 import java.io.BufferedReader
@@ -25,7 +24,6 @@ import java.net.URL
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var mostValuedAdapter: MostValuedAdapter
-    private lateinit var recyclerView: RecyclerView
 
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -53,48 +51,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun addAssets() {
-        val assets = getAssets()
-        this.mostValuedAdapter.setAssets(assets)
+        getAssets { it
+            this.mostValuedAdapter.setAssets(it)
+        }
     }
 
-    private fun getAssets(): ArrayList<Asset> {
-        try {
-            val url = URL("https://crypto-could-i-have-won-production.up.railway.app/assets")
-            val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.requestMethod = "GET"
-            urlConnection.readTimeout = 30000
-            urlConnection.connectTimeout = 30000
-            urlConnection.connect()
-
-            val inputStream = BufferedInputStream(urlConnection.inputStream)
-            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-            val stringBuilder = StringBuilder()
-            var line: String?
-            while(bufferedReader.readLine().also { line = it } != null) {
-                stringBuilder.append(line)
-            }
-
-            inputStream.close()
-            urlConnection.disconnect()
-            val response = stringBuilder.toString()
-
-            val json = JSONArray(response)
-            val assets = ArrayList<Asset>()
-            for(i in 0 until json.length()) {
-                val jsonObject = json.getJSONObject(i)
+    private fun getAssets(callback: (MutableList<Asset>) -> Unit) {
+        val network = NetworkTask()
+        GlobalScope.launch {
+            val result = network.makeRequest("https://crypto-could-i-have-won-production.up.railway.app/assets")
+            val jsonArray = JSONArray(result)
+            val assets = mutableListOf<Asset>()
+            for (i in 0 until jsonArray.length()) {
+                val temporaryAsset = jsonArray.getJSONObject(i)
                 val asset = Asset(
-                    jsonObject.getString("symbol"),
-                    jsonObject.getString("nome"),
-                    jsonObject.getString("icon"),
-                    jsonObject.getDouble("price"),
-                    jsonObject.getDouble("variation"),
+                    temporaryAsset.getString("symbol"),
+                    temporaryAsset.getString("nome"),
+                    temporaryAsset.getString("icon"),
+                    temporaryAsset.getDouble("price"),
+                    temporaryAsset.getDouble("variation"),
                 )
                 assets.add(asset)
-                return assets
             }
-        } catch (e: Exception) {
-            e.message
+            callback(assets)
         }
-        return ArrayList<Asset>()
     }
 }

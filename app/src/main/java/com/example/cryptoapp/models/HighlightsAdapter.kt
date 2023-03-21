@@ -8,16 +8,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.AssetViewHolderBinding
+import com.example.cryptoapp.databinding.AssetViewHolderHighlightsBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MostValuedAdapter(private var assets : List<Asset> = ArrayList()) : RecyclerView.Adapter<AssetViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolder {
+class HighlightsAdapter(private var assets : List<Asset> = ArrayList()) : RecyclerView.Adapter<AssetViewHolderHighlights>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolderHighlights {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = AssetViewHolderBinding.inflate(inflater, parent, false)
-        return AssetViewHolder(binding)
+        val binding = AssetViewHolderHighlightsBinding.inflate(inflater, parent, false)
+        return AssetViewHolderHighlights(binding)
     }
 
     override fun getItemCount(): Int {
@@ -28,17 +29,16 @@ class MostValuedAdapter(private var assets : List<Asset> = ArrayList()) : Recycl
         this.assets = asset
     }
 
-    override fun onBindViewHolder(holder: AssetViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AssetViewHolderHighlights, position: Int) {
         when(holder) {
-            is AssetViewHolder -> {
+            is AssetViewHolderHighlights -> {
                 holder.bind(assets[position])
             }
         }
     }
 }
 
-class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
-
+class AssetViewHolderHighlights constructor(private val binding: AssetViewHolderHighlightsBinding) : RecyclerView.ViewHolder(binding.root) {
     fun Double.formatMoney(currencyCode: String = "USD", locale: Locale = Locale.US): String {
         val format: NumberFormat = NumberFormat.getCurrencyInstance(locale)
         format.maximumFractionDigits = 2
@@ -47,14 +47,12 @@ class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) :
     }
 
     fun bind(asset: Asset) {
-
         val requestOptions = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
 
         val priceValue = asset.price
         val formattedValue = priceValue.formatMoney("BRL", Locale("pt", "BR"))
-
 
         val variationValue = asset.variation
         if(variationValue > 0) {

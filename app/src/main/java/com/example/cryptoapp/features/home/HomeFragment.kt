@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.models.Asset
+import com.example.cryptoapp.models.HighlightsAdapter
 import com.example.cryptoapp.models.MostValuedAdapter
 import com.example.cryptoapp.services.network.NetworkTask
 import kotlinx.coroutines.GlobalScope
@@ -20,6 +21,7 @@ import org.json.JSONArray
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var mostValuedAdapter: MostValuedAdapter
+    private lateinit var highlightsAdapter: HighlightsAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -31,7 +33,9 @@ class HomeFragment : Fragment() {
 
         setupLayout()
         initMostValued()
+        initHighlights()
         addAssets()
+        addAssetsHighlights()
 
         return root
     }
@@ -49,12 +53,31 @@ class HomeFragment : Fragment() {
         fragmentTransaction.commit()
     }
 
+    private fun initHighlights() {
+        highlightsAdapter = HighlightsAdapter()
+        val highlightsFragment = HighlightsFragment.newInstance(highlightsAdapter)
+        val fragmentManager = childFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_container_highlights, highlightsFragment)
+        fragmentTransaction.commit()
+    }
+
     private fun addAssets() {
         getAssets { assets ->
             this.mostValuedAdapter.setAssets(assets)
             val handler = Handler(Looper.getMainLooper())
             handler.post {
                 this.mostValuedAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun addAssetsHighlights() {
+        getAssets { assets ->
+            this.highlightsAdapter.setAssets(assets)
+            val handler = Handler(Looper.getMainLooper())
+            handler.post {
+                this.highlightsAdapter.notifyDataSetChanged()
             }
         }
     }

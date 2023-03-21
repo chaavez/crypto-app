@@ -20,8 +20,8 @@ import org.json.JSONArray
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var mostValuedAdapter: MostValuedAdapter
-
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,8 +42,11 @@ class HomeFragment : Fragment() {
 
     private fun initMostValued() {
         mostValuedAdapter = MostValuedAdapter()
-        binding.mostValuedRecyclerView.adapter = mostValuedAdapter
-        binding.mostValuedRecyclerView.layoutManager = LinearLayoutManager(context)
+        val mostValuedFragment = MostValuedFragment.newInstance(mostValuedAdapter)
+        val fragmentManager = childFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_container_most_valued, mostValuedFragment)
+        fragmentTransaction.commit()
     }
 
     private fun addAssets() {

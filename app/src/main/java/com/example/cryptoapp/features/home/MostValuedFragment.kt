@@ -26,6 +26,7 @@ class MostValuedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        isInitialized()
         val view = inflater.inflate(R.layout.fragment_most_valued, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.most_valued_recycler_view)
@@ -33,5 +34,11 @@ class MostValuedFragment : Fragment() {
         recyclerView.adapter = mostValuedAdapter
 
         return view
+    }
+
+    fun isInitialized() {
+        if(!::mostValuedAdapter.isInitialized) {
+            mostValuedAdapter = MostValuedAdapter()
+        }
     }
 }

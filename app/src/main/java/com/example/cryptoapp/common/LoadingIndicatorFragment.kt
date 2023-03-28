@@ -5,13 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.ProgressBar
-import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.features.home.MostValuedFragment
-import com.example.cryptoapp.models.MostValuedAdapter
-import kotlinx.coroutines.*
 
 
 class LoadingIndicatorFragment : Fragment() {

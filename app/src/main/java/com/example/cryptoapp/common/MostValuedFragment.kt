@@ -1,4 +1,4 @@
-package com.example.cryptoapp.features.home
+package com.example.cryptoapp.common
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

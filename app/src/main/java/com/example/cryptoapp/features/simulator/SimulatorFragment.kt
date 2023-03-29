@@ -10,8 +10,8 @@ import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 
 class SimulatorFragment : Fragment() {
     private var _binding: FragmentSimulatorBinding? = null
-
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

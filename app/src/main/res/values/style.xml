@@ -2,6 +2,17 @@
 <resources>
     <style name="RoundedCorners">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+    <style name="OutlinedBoxSimulator" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/secondary_100</item>
+        <item name="android:textColorHint">@color/tertiary_100</item>
+        <item name="boxStrokeColor">@drawable/item_color_outlined_texts</item>
+        <item name="textInputOutlinedStyle">@font/roboto_regular</item>
+    </style>
+    <style name="TextFieldSimulator" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/tertiary_100</item>
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 </resources>

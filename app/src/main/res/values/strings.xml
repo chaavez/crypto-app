@@ -9,6 +9,8 @@
 
     <!--Home-->
     <string name="home_title">Home</string>
+    <string name="most_valued">Mais valorizadas</string>
+    <string name="highlights">Destaques</string>
 
     <!--Simulator-->
     <string name="simulator_title">Simulador</string>

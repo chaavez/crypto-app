@@ -1,8 +1,6 @@
 package com.example.cryptoapp.features.home
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.HighlightsFragment
-import com.example.cryptoapp.common.MostValuedFragment
+import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
+import com.example.cryptoapp.common.fragments.mostValued.MostValuedFragment
 import com.example.cryptoapp.databinding.FragmentHomeBinding
-import com.example.cryptoapp.models.Asset
+import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.models.HighlightsAdapter
 import com.example.cryptoapp.models.MostValuedAdapter
 

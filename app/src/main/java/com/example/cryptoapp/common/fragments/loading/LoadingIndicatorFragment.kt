@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common
+package com.example.cryptoapp.common.fragments.loading
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

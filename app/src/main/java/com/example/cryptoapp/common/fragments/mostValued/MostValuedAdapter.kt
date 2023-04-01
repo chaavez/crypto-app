@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.databinding.AssetViewHolderBinding
-import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -70,7 +70,7 @@ class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) :
             .load(asset.icon)
             .into(binding.iconImageView)
         binding.symbolTextView.text = asset.symbol
-        binding.nameTextView.text = asset.nome
+        binding.nameTextView.text = asset.name
         binding.priceTextView.text = formattedValue
         binding. variationTextView.text = "$variationValue%"
     }

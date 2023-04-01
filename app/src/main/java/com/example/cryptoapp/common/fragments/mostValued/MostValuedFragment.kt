@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common
+package com.example.cryptoapp.common.fragments.mostValued
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

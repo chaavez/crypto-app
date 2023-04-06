@@ -15,31 +15,26 @@
         app:layout_constraintTop_toTopOf="parent">
     </include>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/asset_text_field"
-        style="@style/OutlinedBoxSimulator"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/asset_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="Moeda"
-        app:endIconDrawable="@drawable/ic_arrow"
-        app:endIconMode="custom"
-        app:endIconTint="@color/tertiary_100"
+        android:drawableEnd="@drawable/ic_arrow"
+        android:drawableTint="@color/tertiary_100"
+        android:textAlignment="textStart"
+        app:strokeColor="@color/tertiary_100"
+        app:strokeWidth="1dp"
+        android:text="BTC"
+        android:textSize="16sp"
+        android:textColor="@color/tertiary_100"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/primary_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:shapeAppearanceOverlay="@style/RoundedCorners">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/asset_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            style="@style/TextFieldSimulator"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amount_text_field"
@@ -53,7 +48,7 @@
         android:textColorHint="@color/tertiary_100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/asset_text_field"
+        app:layout_constraintTop_toBottomOf="@id/asset_button"
         app:shapeAppearanceOverlay="@style/RoundedCorners">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,8 +56,7 @@
             style="@style/TextFieldSimulator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:padding="8dp" />
+            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,8 +79,7 @@
             style="@style/TextFieldSimulator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:padding="8dp" />
+            android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="Preço em"
         android:textColor="@color/tertiary_100"
@@ -189,7 +182,7 @@
         android:layout_marginEnd="16dp"
         android:text="Salvar na carteira"
         android:textAllCaps="false"
-        android:backgroundTint="@color/secondary_200"
+        android:backgroundTint="@drawable/item_color_button"
         app:cornerRadius="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -12,6 +12,8 @@ class SimulatorFragment : Fragment() {
     private var _binding: FragmentSimulatorBinding? = null
     private val binding get() = _binding!!
 
+//    private lateinit var viewModel: SimulatorViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

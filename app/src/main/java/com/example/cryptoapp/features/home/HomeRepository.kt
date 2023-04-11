@@ -6,11 +6,11 @@ import com.example.cryptoapp.services.network.apis.assets.AssetsRequest
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
 
 class HomeRepository {
-    fun fetchAssets(callback: (MutableList<Asset>) -> Unit) {
+    fun fetchAssets(callback: (List<Asset>) -> Unit) {
         val assetsRequest = AssetsRequest(RetrofitProvider())
 
         assetsRequest.get { assetsResponse, apiError ->
-            callback(assetsResponse?.let { converter(it) } as MutableList<Asset>)
+            assetsResponse?.let { converter(it) }?.let { callback(it) }
         }
     }
 

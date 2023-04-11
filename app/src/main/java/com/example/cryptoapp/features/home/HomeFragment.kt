@@ -73,12 +73,12 @@ class HomeFragment : Fragment() {
         viewModel.getAssets()
     }
 
-    private fun updateMostValued(assets: MutableList<Asset>) {
+    private fun updateMostValued(assets: List<Asset>) {
         mostValuedAdapter.setAssets(assets)
         mostValuedAdapter.notifyDataSetChanged()
     }
 
-    private fun updateHighlights(assets: MutableList<Asset>) {
+    private fun updateHighlights(assets: List<Asset>) {
         highlightsAdapter.setAssets(assets)
         highlightsAdapter.notifyDataSetChanged()
     }

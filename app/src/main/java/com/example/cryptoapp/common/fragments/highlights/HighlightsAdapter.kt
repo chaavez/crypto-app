@@ -50,13 +50,11 @@ class AssetViewHolderHighlights constructor(private val binding: AssetViewHolder
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
 
-        val priceValue = asset.price
-        val formattedValue = priceValue.formatMoney("BRL", Locale("pt", "BR"))
+        val formattedValue = asset.price.formatMoney("BRL", Locale("pt", "BR"))
 
-        val variationValue = asset.variation
-        if(variationValue > 0) {
+        if(asset.variation > 0) {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.green_100))
-        } else if(variationValue.equals(0.0)) {
+        } else if(asset.variation.equals(0.0)) {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
         } else {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.secondary_200))
@@ -69,6 +67,10 @@ class AssetViewHolderHighlights constructor(private val binding: AssetViewHolder
         binding.symbolTextView.text = asset.symbol
         binding.nameTextView.text = asset.name
         binding.priceTextView.text = formattedValue
-        binding. variationTextView.text = "$variationValue%"
+        binding.variationTextView.text = "${roundTheNumber(asset.variation)}%"
+    }
+
+    fun roundTheNumber(numInDouble: Double): String {
+        return "%.2f".format(numInDouble)
     }
 }

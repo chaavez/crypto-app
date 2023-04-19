@@ -34,12 +34,6 @@ class HomeFragment : Fragment() {
             .replace(R.id.fragment_container_highlights, highlightsFragment)
             .replace(R.id.fragment_container_most_valued, mostValuedFragment)
             .commit()
-        viewModel.getAssets()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAssets()
     }
 
     private fun setupLayout() {

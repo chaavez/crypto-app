@@ -34,4 +34,9 @@ class MostValuedFragment : Fragment() {
         }
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAssets()
+    }
 }

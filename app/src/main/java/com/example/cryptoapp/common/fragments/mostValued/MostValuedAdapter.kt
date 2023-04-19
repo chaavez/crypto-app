@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
-import com.example.cryptoapp.databinding.AssetViewHolderBinding
+import com.example.cryptoapp.databinding.AssetViewHolderMostValuedBinding
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,7 +16,7 @@ import kotlin.collections.ArrayList
 class MostValuedAdapter(private var assets : List<Asset> = ArrayList()) : RecyclerView.Adapter<AssetViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = AssetViewHolderBinding.inflate(inflater, parent, false)
+        val binding = AssetViewHolderMostValuedBinding.inflate(inflater, parent, false)
         return AssetViewHolder(binding)
     }
 
@@ -37,7 +37,7 @@ class MostValuedAdapter(private var assets : List<Asset> = ArrayList()) : Recycl
     }
 }
 
-class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
+class AssetViewHolder constructor(private val binding: AssetViewHolderMostValuedBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun Double.formatMoney(currencyCode: String = "USD", locale: Locale = Locale.US): String {
         val format: NumberFormat = NumberFormat.getCurrencyInstance(locale)
@@ -52,14 +52,11 @@ class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) :
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
 
-        val priceValue = asset.price
-        val formattedValue = priceValue.formatMoney("BRL", Locale("pt", "BR"))
+        val formattedValue = asset.price.formatMoney("BRL", Locale("pt", "BR"))
 
-
-        val variationValue = asset.variation
-        if(variationValue > 0) {
+        if(asset.variation > 0) {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.green_100))
-        } else if(variationValue.equals(0.0)) {
+        } else if(asset.variation.equals(0.0)) {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
         } else {
             binding.variationTextView.setTextColor(ContextCompat.getColor(itemView.context, R.color.secondary_200))
@@ -72,6 +69,10 @@ class AssetViewHolder constructor(private val binding: AssetViewHolderBinding) :
         binding.symbolTextView.text = asset.symbol
         binding.nameTextView.text = asset.name
         binding.priceTextView.text = formattedValue
-        binding. variationTextView.text = "$variationValue%"
+        binding. variationTextView.text = "${roundTheNumber(asset.variation)}%"
+    }
+
+    fun roundTheNumber(numInDouble: Double): String {
+        return "%.2f".format(numInDouble)
     }
 }

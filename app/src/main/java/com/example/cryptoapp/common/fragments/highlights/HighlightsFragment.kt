@@ -26,7 +26,7 @@ class HighlightsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_highlights, container, false)
         viewModel = ViewModelProvider(requireParentFragment(), HomeViewModelFactory(HomeRepository())).get(HomeViewModel::class.java)
         val recyclerView = view.findViewById<RecyclerView>(R.id.highlights_recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2, GridLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = highlightsAdapter
         viewModel.assets.observe(viewLifecycleOwner) { newData ->
             highlightsAdapter.setAssets(newData)

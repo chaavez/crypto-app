@@ -10,14 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.features.home.HomeRepository
-import com.example.cryptoapp.features.home.HomeViewModel
-import com.example.cryptoapp.features.home.HomeViewModelFactory
 import com.example.cryptoapp.models.HighlightsAdapter
 
 class HighlightsFragment : Fragment() {
     private val highlightsAdapter = HighlightsAdapter()
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: HighlightsViewModel
 
 
     override fun onCreateView(
@@ -25,14 +22,13 @@ class HighlightsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_highlights, container, false)
-        viewModel = ViewModelProvider(requireParentFragment(), HomeViewModelFactory(HomeRepository())).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(requireParentFragment(), HighlightsViewModelFactory(HighlightsRepository())).get(HighlightsViewModel::class.java)
         val recyclerView = view.findViewById<RecyclerView>(R.id.highlights_recycler_view)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2, GridLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = highlightsAdapter
         viewModel.assets.observe(viewLifecycleOwner) { newData ->
             highlightsAdapter.setAssets(newData)
             recyclerView.adapter?.notifyDataSetChanged()
-            Log.d("aaa", "$newData")
         }
         return view
     }
@@ -46,5 +42,4 @@ class HighlightsFragment : Fragment() {
         super.onPause()
         viewModel.stopPolling()
     }
-
 }

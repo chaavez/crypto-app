@@ -14,7 +14,6 @@ import com.example.cryptoapp.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
     private lateinit var _binding: FragmentHomeBinding
     private val binding get() = _binding!!
-    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +25,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, HomeViewModelFactory(HomeRepository())).get(HomeViewModel::class.java)
         val highlightsFragment = HighlightsFragment()
         val mostValuedFragment = MostValuedFragment()
         setupLayout()

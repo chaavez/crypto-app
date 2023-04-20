@@ -9,22 +9,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.features.home.HomeRepository
-import com.example.cryptoapp.features.home.HomeViewModel
-import com.example.cryptoapp.features.home.HomeViewModelFactory
 import com.example.cryptoapp.models.MostValuedAdapter
 
 
 class MostValuedFragment : Fragment() {
     private val mostValuedAdapter = MostValuedAdapter()
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: MostValuedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_most_valued, container, false)
-        viewModel = ViewModelProvider(requireParentFragment(), HomeViewModelFactory(HomeRepository())).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(requireParentFragment(), MostValuedViewModelFactory(MostValuedRepository())).get(MostValuedViewModel::class.java)
         val recyclerView = view.findViewById<RecyclerView>(R.id.most_valued_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = mostValuedAdapter

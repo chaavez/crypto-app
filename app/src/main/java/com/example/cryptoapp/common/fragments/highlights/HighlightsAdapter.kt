@@ -1,5 +1,6 @@
 package com.example.cryptoapp.models
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -17,6 +18,11 @@ class HighlightsAdapter(private var assets : List<Asset> = ArrayList()) : Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolderHighlights {
         val inflater = LayoutInflater.from(parent.context)
         val binding = AssetViewHolderHighlightsBinding.inflate(inflater, parent, false)
+
+        val layoutParams = binding.root.layoutParams
+        layoutParams.width = getScreenWidth(parent.context) / 2
+        binding.root.layoutParams = layoutParams
+
         return AssetViewHolderHighlights(binding)
     }
 
@@ -34,6 +40,11 @@ class HighlightsAdapter(private var assets : List<Asset> = ArrayList()) : Recycl
                 holder.bind(assets[position])
             }
         }
+    }
+
+    private fun getScreenWidth(context: Context): Int {
+        val displayMetrics = context.resources.displayMetrics
+        return displayMetrics.widthPixels
     }
 }
 

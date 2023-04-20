@@ -1,6 +1,7 @@
 package com.example.cryptoapp.common.fragments.highlights
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,12 +32,19 @@ class HighlightsFragment : Fragment() {
         viewModel.assets.observe(viewLifecycleOwner) { newData ->
             highlightsAdapter.setAssets(newData)
             recyclerView.adapter?.notifyDataSetChanged()
+            Log.d("aaa", "$newData")
         }
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAssets()
+        viewModel.startPolling()
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopPolling()
+    }
+
 }

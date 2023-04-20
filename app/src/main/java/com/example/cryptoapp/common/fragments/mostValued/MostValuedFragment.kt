@@ -37,6 +37,11 @@ class MostValuedFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAssets()
+        viewModel.startPolling()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopPolling()
     }
 }

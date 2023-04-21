@@ -9,17 +9,22 @@ import com.example.cryptoapp.common.models.Asset
 class HighlightsViewModel(private val repository: HighlightsRepository) : ViewModel() {
     val assets = MutableLiveData<MutableList<Asset>>()
 
+    private var startedPolling = false
     private val handler = Handler(Looper.getMainLooper())
     private val delay = 10000L
     private val runnable = object : Runnable {
+
         override fun run() {
             getAssets()
             handler.postDelayed(this, delay)
         }
     }
 
-    fun startPolling() {
-        handler.postDelayed(runnable, delay)
+    private fun startPolling() {
+        if(!startedPolling) {
+            handler.postDelayed(runnable, delay)
+            startedPolling = true
+        }
     }
 
     fun stopPolling() {
@@ -29,6 +34,7 @@ class HighlightsViewModel(private val repository: HighlightsRepository) : ViewMo
     fun getAssets() {
         repository.fetchAssets { assets ->
             this.assets.value = assets
+            startPolling()
         }
     }
 }

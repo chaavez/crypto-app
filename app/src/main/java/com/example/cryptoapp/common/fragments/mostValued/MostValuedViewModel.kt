@@ -8,6 +8,7 @@ import com.example.cryptoapp.common.models.Asset
 
 class MostValuedViewModel(private val repository: MostValuedRepository) : ViewModel() {
     val assets = MutableLiveData<MutableList<Asset>>()
+    private var startedPolling = false
     private val handler = Handler(Looper.getMainLooper())
     private val delay = 10000L
     private val runnable = object : Runnable {
@@ -18,8 +19,11 @@ class MostValuedViewModel(private val repository: MostValuedRepository) : ViewMo
         }
     }
 
-    fun startPolling() {
-        handler.postDelayed(runnable, delay)
+    private fun startPolling() {
+        if(!startedPolling) {
+            handler.postDelayed(runnable, delay)
+            startedPolling = true
+        }
     }
 
     fun stopPolling() {
@@ -29,6 +33,7 @@ class MostValuedViewModel(private val repository: MostValuedRepository) : ViewMo
     fun getAssets() {
         repository.fetchAssets { assets ->
             this.assets.value = assets
+            startPolling()
         }
     }
 }

@@ -14,6 +14,13 @@
 
     <!--Simulator-->
     <string name="simulator_title">Simulador</string>
+    <string name="simulator_amount">Quantidade</string>
+    <string name="simulator_date">Data</string>
+    <string name="simulator_price_in">Preço em </string>
+    <string name="simulator_current_price">Preço atual </string>
+    <string name="simulator_result_price">Você </string>
+    <string name="simulator_save_in_wallet">Salvar na carteira</string>
+
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>

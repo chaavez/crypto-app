@@ -14,7 +14,13 @@
     <string name="highlights">Highlights</string>
 
     <!--Simulator-->
-    <string name="simulator_title">Simulador</string>
+    <string name="simulator_title">Simulator</string>
+    <string name="simulator_amount">Amount</string>
+    <string name="simulator_date">Date</string>
+    <string name="simulator_price_in">Price in </string>
+    <string name="simulator_current_price">Current price </string>
+    <string name="simulator_result_price">You </string>
+    <string name="simulator_save_in_wallet">Save in wallet</string>
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>

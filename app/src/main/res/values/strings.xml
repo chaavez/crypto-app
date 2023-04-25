@@ -20,6 +20,9 @@
     <string name="simulator_current_price">Preço atual </string>
     <string name="simulator_result_price">Você </string>
     <string name="simulator_save_in_wallet">Salvar na carteira</string>
+    <string name="simulator_money_symbol">R$ </string>
+    <string name="simulator_would_lose">perderia</string>
+    <string name="simulator_would_invoice">faturaria</string>
 
 
     <!--Wallet-->

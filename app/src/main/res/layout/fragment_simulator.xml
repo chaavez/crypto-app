@@ -72,7 +72,6 @@
             android:id="@+id/date_text_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
             android:padding="13dp"
             android:textColor="@color/tertiary_100"
             android:textSize="13sp" />

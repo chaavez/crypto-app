@@ -1,6 +1,8 @@
 package com.example.cryptoapp.features.simulator
 
 import android.os.Bundle
+import android.text.InputType
+import android.text.method.DigitsKeyListener
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
+import com.redmadrobot.inputmask.MaskedTextChangedListener
 
 class SimulatorFragment : Fragment() {
     private lateinit var _binding: FragmentSimulatorBinding
@@ -30,6 +32,7 @@ class SimulatorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupLayout()
         setupButtonAssetNavigate()
+        maskedDate()
     }
 
     private fun setupButtonAssetNavigate() {
@@ -66,19 +69,11 @@ class SimulatorFragment : Fragment() {
     }
 
     private fun saveAmountAndDate() {
-        viewModel.saveInWallet(
-            binding.amountTextInputEditText.text.toString(),
-            binding.dateTextInputEditText.text.toString()
-        )
+        viewModel.saveInWallet(binding.amountTextInputEditText.text.toString(), binding.dateTextInputEditText.text.toString())
     }
 
     private fun setSaveButtonColorAndEnable(color: Int) {
-        binding.saveInWalletButton.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                color
-            )
-        )
+        binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), color))
         binding.saveInWalletButton.isEnabled = (color != R.color.primary_300)
     }
 
@@ -91,7 +86,9 @@ class SimulatorFragment : Fragment() {
     }
 
     private fun toggleTextViewsVisibility() {
-        val isAllFieldsFilled = !binding.amountTextInputEditText.text.isNullOrBlank() && !binding.dateTextInputEditText.text.isNullOrBlank()
+        val isAllFieldsFilled = !binding.amountTextInputEditText.text.isNullOrBlank()
+                && !binding.dateTextInputEditText.text.isNullOrBlank()
+                && binding.dateTextInputEditText.text!!.length == 10
 
         if (isAllFieldsFilled) {
             binding.priceInTittleTextView.visibility = View.VISIBLE
@@ -108,5 +105,20 @@ class SimulatorFragment : Fragment() {
             binding.resultPriceTittleTextView.visibility = View.INVISIBLE
             binding.resultPriceTextView.visibility = View.INVISIBLE
         }
+    }
+
+    private fun maskedDate() {
+        val dateFormat = binding.dateTextInputEditText
+        val listener = MaskedTextChangedListener(
+            "[00]{/}[00]{/}[9900]",
+            true,
+            dateFormat,
+            null,
+            null
+        )
+        dateFormat.inputType = InputType.TYPE_CLASS_DATETIME
+        dateFormat.keyListener = DigitsKeyListener.getInstance("0123456789 /")
+        dateFormat.addTextChangedListener(listener)
+        dateFormat.onFocusChangeListener = listener
     }
 }

@@ -1,7 +1,6 @@
 package com.example.cryptoapp.features.simulator
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,7 +40,7 @@ class SimulatorViewModel : ViewModel() {
     }
 
     fun saveInWallet(amount: String, date: String) {
-        if(amount.isNotEmpty() && amount != "0" && date.isNotEmpty()) {
+        if(amount.isNotEmpty() && amount != "0" && date.isNotEmpty() && date.length == 10) {
             _saveButtonColor.value = R.color.secondary_200
         } else {
             _saveButtonColor.value = R.color.primary_300

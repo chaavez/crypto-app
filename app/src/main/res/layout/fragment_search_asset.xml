@@ -28,7 +28,9 @@
             android:backgroundTint="@color/tertiary_100"
             android:drawableLeft="@drawable/ic_search"
             android:drawableTint="@color/tertiary_100"
+            android:textColor="@color/tertiary_100"
             android:maxLines="1"
+            android:maxLength="25"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"></EditText>

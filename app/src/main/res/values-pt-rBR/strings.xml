@@ -24,6 +24,9 @@
     <string name="simulator_would_lose">perderia</string>
     <string name="simulator_would_invoice">faturaria</string>
 
+    <!--Buscar moeda-->
+    <string name="search_asset_tittle">Buscar moeda</string>
+
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
 </resources>

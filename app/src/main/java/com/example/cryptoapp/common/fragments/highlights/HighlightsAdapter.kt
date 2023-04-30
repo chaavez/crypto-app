@@ -1,4 +1,4 @@
-package com.example.cryptoapp.models
+package com.example.cryptoapp.common.fragments.highlights
 
 import android.content.Context
 import android.view.LayoutInflater

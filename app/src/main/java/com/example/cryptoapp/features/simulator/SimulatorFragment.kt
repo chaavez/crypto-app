@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -36,7 +37,9 @@ class SimulatorFragment : Fragment() {
     }
 
     private fun setupButtonAssetNavigate() {
+        val navController = view?.let { Navigation.findNavController(it) }
         binding.assetButton.setOnClickListener {
+            navController?.navigate(R.id.searchAssetFragment)
         }
     }
 

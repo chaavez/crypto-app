@@ -25,6 +25,9 @@
     <string name="simulator_would_lose">would lose</string>
     <string name="simulator_would_invoice">would profit</string>
 
+    <!--Buscar moeda-->
+    <string name="search_asset_tittle">Search currency</string>
+
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
 </resources>

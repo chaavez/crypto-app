@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
 import com.example.cryptoapp.common.fragments.mostValued.MostValuedFragment
@@ -35,6 +34,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupLayout() {
-        binding.toolbar.titleTextView.text = getString(R.string.home_title)
+        binding.homeToolbar.toolbarTextView.text = getString(R.string.home_title)
     }
 }

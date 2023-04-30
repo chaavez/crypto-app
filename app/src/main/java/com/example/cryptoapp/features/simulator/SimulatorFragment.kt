@@ -44,7 +44,7 @@ class SimulatorFragment : Fragment() {
     }
 
     private fun setupLayout() {
-        binding.toolbar.titleTextView.text = getString(R.string.simulator_title)
+        binding.simulatorToolbar.toolbarTextView.text = getString(R.string.simulator_title)
         binding.amountTextInputEditText.addTextChangedListener {
             saveAmountAndDate()
             toggleTextViewsVisibility()

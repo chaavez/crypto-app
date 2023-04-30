@@ -6,15 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
-import androidx.databinding.adapters.SearchViewBindingAdapter
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
-import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 
 class SearchAssetFragment : Fragment() {
     private val searchAssetAdapter = SearchAssetAdapter()
@@ -40,6 +35,6 @@ class SearchAssetFragment : Fragment() {
     }
 
     private fun setupLayout() {
-        binding.toolbar.titleTextView.text = getString(R.string.search_asset_tittle)
+        binding.searchAssetToolbar.toolbarTextView.text = getString(R.string.search_asset_tittle)
     }
 }

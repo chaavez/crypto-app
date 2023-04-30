@@ -9,12 +9,11 @@
     tools:context=".features.simulator.SimulatorFragment">
 
     <include
+        android:id="@+id/simulator_toolbar"
         layout="@layout/toolbar"
-        android:id="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </include>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/asset_button"
@@ -30,7 +29,7 @@
         app:strokeWidth="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/simulator_toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amount_outlined_text_field"

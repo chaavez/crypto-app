@@ -24,5 +24,6 @@ class WalletFragment : Fragment() {
 
     private fun setupLayout() {
         binding.walletToolbar.toolbarTextView.text = getText(R.string.wallet_title)
+        binding.walletToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
     }
 }

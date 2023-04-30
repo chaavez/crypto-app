@@ -1,4 +1,4 @@
-package com.example.cryptoapp.models
+package com.example.cryptoapp.common.fragments.mostValued
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

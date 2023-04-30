@@ -36,5 +36,9 @@ class SearchAssetFragment : Fragment() {
 
     private fun setupLayout() {
         binding.searchAssetToolbar.toolbarTextView.text = getString(R.string.search_asset_tittle)
+        binding.searchAssetToolbar.toolbarImageButton.setImageResource(R.drawable.ic_back_arrow)
+        binding.searchAssetToolbar.toolbarImageButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 }

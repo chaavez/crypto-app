@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 
@@ -37,14 +37,18 @@ class SimulatorFragment : Fragment() {
     }
 
     private fun setupButtonAssetNavigate() {
-        val navController = view?.let { Navigation.findNavController(it) }
         binding.assetButton.setOnClickListener {
-            navController?.navigate(R.id.searchAssetFragment)
+            val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+            val searchAssetFragment = SearchAssetFragment()
+            fragmentTransaction.replace(R.id.main_fragment, searchAssetFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
     }
 
     private fun setupLayout() {
         binding.simulatorToolbar.toolbarTextView.text = getString(R.string.simulator_title)
+        binding.simulatorToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
         binding.amountTextInputEditText.addTextChangedListener {
             saveAmountAndDate()
             toggleTextViewsVisibility()

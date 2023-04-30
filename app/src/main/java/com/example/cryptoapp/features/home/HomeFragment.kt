@@ -35,5 +35,6 @@ class HomeFragment : Fragment() {
 
     private fun setupLayout() {
         binding.homeToolbar.toolbarTextView.text = getString(R.string.home_title)
+        binding.homeToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
     }
 }

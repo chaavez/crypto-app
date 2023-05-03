@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.models.Mock
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
 
 class SearchAssetFragment : Fragment() {
@@ -24,14 +25,15 @@ class SearchAssetFragment : Fragment() {
         binding = FragmentSearchAssetBinding.inflate(inflater, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.search_asset_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = searchAssetAdapter
-        return binding.root
+        recyclerView.adapter = this.searchAssetAdapter
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchAssetViewModel::class.java)
         setupLayout()
+        mocks()
     }
 
     private fun setupLayout() {
@@ -40,5 +42,10 @@ class SearchAssetFragment : Fragment() {
         binding.searchAssetToolbar.toolbarImageButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+    }
+
+    private fun mocks() {
+        val mock = Mock.mockData()
+        searchAssetAdapter.setAssets(mock)
     }
 }

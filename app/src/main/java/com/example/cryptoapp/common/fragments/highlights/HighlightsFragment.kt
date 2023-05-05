@@ -21,8 +21,12 @@ class HighlightsFragment : Fragment() {
     ): View? {
         _binding = FragmentHighlightsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireParentFragment(), HighlightsViewModelFactory(HighlightsRepository())).get(HighlightsViewModel::class.java)
-        setupRecyclerView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
     }
 
     override fun onResume() {

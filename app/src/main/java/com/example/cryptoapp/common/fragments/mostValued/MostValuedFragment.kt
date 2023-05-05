@@ -22,8 +22,12 @@ class MostValuedFragment : Fragment() {
     ): View? {
         _binding = FragmentMostValuedBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireParentFragment(), MostValuedViewModelFactory(MostValuedRepository())).get(MostValuedViewModel::class.java)
-        setupRecyclerView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
     }
 
     override fun onResume() {

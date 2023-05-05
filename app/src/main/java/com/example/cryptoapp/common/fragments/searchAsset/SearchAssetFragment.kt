@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.models.Mock
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
 
 class SearchAssetFragment : Fragment() {
@@ -33,8 +32,12 @@ class SearchAssetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupLayout()
         setupRecyclerView()
-        mocks()
         observeAssetEditText()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAssets()
     }
 
     private fun setupLayout() {
@@ -48,26 +51,22 @@ class SearchAssetFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.searchAssetRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchAssetRecyclerView.adapter = searchAssetAdapter
+        viewModel.filteredAssets.observe(viewLifecycleOwner) { assets ->
+            searchAssetAdapter.setAssets(assets)
+        }
     }
 
     private fun observeAssetEditText() {
         binding.searchAssetEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                print("")
             }
 
             override fun onTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                searchAssetAdapter.setAssets(Mock.mockData2())
+                viewModel.filterAssets(query.toString())
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                print("")
             }
         })
-    }
-
-    private fun mocks() {
-        val mock = Mock.mockData()
-        searchAssetAdapter.setAssets(mock)
     }
 }

@@ -10,7 +10,7 @@ import com.example.cryptoapp.common.models.SearchAsset
 import com.example.cryptoapp.databinding.ViewHolderSearchAssetBinding
 import kotlin.collections.ArrayList
 
-class SearchAssetAdapter(private var searchAsset : List<SearchAsset> = ArrayList()) : RecyclerView.Adapter<SearchAssetViewHolder>() {
+class SearchAssetAdapter(private var assets : List<SearchAsset> = ArrayList()) : RecyclerView.Adapter<SearchAssetViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAssetViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ViewHolderSearchAssetBinding.inflate(inflater, parent, false)
@@ -18,16 +18,14 @@ class SearchAssetAdapter(private var searchAsset : List<SearchAsset> = ArrayList
         return SearchAssetViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return searchAsset.size
-    }
+    override fun getItemCount() = assets.size
 
     override fun onBindViewHolder(holder: SearchAssetViewHolder, position: Int) {
-        holder.bind(searchAsset[position])
+        holder.bind(assets[position])
     }
 
     fun setAssets(asset: List<SearchAsset>) {
-        this.searchAsset = asset
+        this.assets = asset
         notifyDataSetChanged()
     }
 }

@@ -4,8 +4,8 @@ class Mock {
 
     companion object {
 
-        fun mockData(): ArrayList<SearchAsset>{
-            val list = ArrayList<SearchAsset>()
+        fun mockData(): MutableList<SearchAsset>{
+            val list = mutableListOf<SearchAsset>()
             list.add(
                 SearchAsset(
                     "BTC",

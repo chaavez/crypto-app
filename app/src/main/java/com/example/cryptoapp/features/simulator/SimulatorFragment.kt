@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
+import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 
 class SimulatorFragment : Fragment() {
@@ -38,11 +38,7 @@ class SimulatorFragment : Fragment() {
 
     private fun setupButtonAssetNavigate() {
         binding.assetButton.setOnClickListener {
-            val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-            val searchAssetFragment = SearchAssetFragment()
-            fragmentTransaction.replace(R.id.main_fragment, searchAssetFragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+            (activity as? MainActivity)?.showSearchAssetsFragment()
         }
     }
 

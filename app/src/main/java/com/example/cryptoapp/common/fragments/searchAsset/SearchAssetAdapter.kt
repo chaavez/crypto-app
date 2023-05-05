@@ -23,15 +23,12 @@ class SearchAssetAdapter(private var searchAsset : List<SearchAsset> = ArrayList
     }
 
     override fun onBindViewHolder(holder: SearchAssetViewHolder, position: Int) {
-        when(holder) {
-            is SearchAssetViewHolder -> {
-                holder.bind(searchAsset[position])
-            }
-        }
+        holder.bind(searchAsset[position])
     }
 
     fun setAssets(asset: List<SearchAsset>) {
         this.searchAsset = asset
+        notifyDataSetChanged()
     }
 }
 

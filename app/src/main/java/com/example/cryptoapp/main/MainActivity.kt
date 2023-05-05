@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -32,5 +33,13 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(binding.mainBottomNavigation, navController)
+    }
+
+    fun showSearchAssetsFragment() {
+        val searchAssetFragment = SearchAssetFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment, searchAssetFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

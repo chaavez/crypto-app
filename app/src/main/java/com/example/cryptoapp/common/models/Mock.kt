@@ -71,5 +71,30 @@ class Mock {
             )
             return list
         }
+        fun mockData2(): ArrayList<SearchAsset> {
+            val list = ArrayList<SearchAsset>()
+            list.add(
+                SearchAsset(
+                    "BTC",
+                    "Bitcoin",
+                    "",
+                )
+            )
+            list.add(
+                SearchAsset(
+                    "ETH",
+                    "Ethereum",
+                    "",
+                )
+            )
+            list.add(
+                SearchAsset(
+                    "BNB",
+                    "BNB",
+                    "",
+                )
+            )
+            return list
+        }
     }
 }

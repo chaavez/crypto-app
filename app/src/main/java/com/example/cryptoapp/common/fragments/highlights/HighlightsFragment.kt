@@ -7,28 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoapp.R
+import com.example.cryptoapp.databinding.FragmentHighlightsBinding
 
 class HighlightsFragment : Fragment() {
     private val highlightsAdapter = HighlightsAdapter()
     private lateinit var viewModel: HighlightsViewModel
-
+    private lateinit var _binding: FragmentHighlightsBinding
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_highlights, container, false)
+        _binding = FragmentHighlightsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireParentFragment(), HighlightsViewModelFactory(HighlightsRepository())).get(HighlightsViewModel::class.java)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.highlights_recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2, GridLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = highlightsAdapter
-        viewModel.assets.observe(viewLifecycleOwner) { newData ->
-            highlightsAdapter.setAssets(newData)
-            recyclerView.adapter?.notifyDataSetChanged()
-        }
-        return view
+        setupRecyclerView()
+        return binding.root
     }
 
     override fun onResume() {
@@ -39,5 +33,14 @@ class HighlightsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.stopPolling()
+    }
+
+    private fun setupRecyclerView() {
+        binding.highlightsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
+        binding.highlightsRecyclerView.adapter = highlightsAdapter
+        viewModel.assets.observe(viewLifecycleOwner) { newData ->
+            highlightsAdapter.setAssets(newData)
+            binding.highlightsRecyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 }

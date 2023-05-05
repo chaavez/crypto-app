@@ -18,23 +18,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/search_asset_edit_text"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/asset_search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/tertiary_100"
-            android:drawableLeft="@drawable/ic_search"
-            android:drawableTint="@color/tertiary_100"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:textColor="@color/tertiary_100"
+            android:theme="@style/SearchView"
+            app:searchIcon="@drawable/ic_search"
+            app:searchHintIcon="@drawable/ic_search"
+            app:closeIcon="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_asset_toolbar">
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/search_asset_toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_asset_recycler_view"
@@ -44,7 +38,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_asset_edit_text" />
+            app:layout_constraintTop_toBottomOf="@+id/asset_search_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

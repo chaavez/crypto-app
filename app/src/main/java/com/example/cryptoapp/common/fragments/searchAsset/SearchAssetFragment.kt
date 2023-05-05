@@ -1,13 +1,17 @@
 package com.example.cryptoapp.common.fragments.searchAsset
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Icon
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
@@ -42,7 +46,7 @@ class SearchAssetFragment : Fragment() {
 
     private fun setupLayout() {
         binding.searchAssetToolbar.toolbarTextView.text = getString(R.string.search_asset_tittle)
-        binding.searchAssetToolbar.toolbarImageButton.setImageResource(R.drawable.ic_back_arrow)
+        binding.searchAssetToolbar.toolbarImageButton.setImageResource(R.drawable.ic_arrow_back)
         binding.searchAssetToolbar.toolbarImageButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -57,15 +61,14 @@ class SearchAssetFragment : Fragment() {
     }
 
     private fun observeAssetEditText() {
-        binding.searchAssetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        binding.assetSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
             }
 
-            override fun onTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun onQueryTextChange(query: String?): Boolean {
                 viewModel.filterAssets(query.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
+                return true
             }
         })
     }

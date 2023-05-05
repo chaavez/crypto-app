@@ -20,9 +20,4 @@
         android:name="com.example.cryptoapp.features.wallet.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" />
-    <fragment
-        android:id="@+id/searchAssetFragment"
-        android:name="com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment"
-        android:label="fragment_search_asset"
-        tools:layout="@layout/fragment_search_asset" />
 </navigation>

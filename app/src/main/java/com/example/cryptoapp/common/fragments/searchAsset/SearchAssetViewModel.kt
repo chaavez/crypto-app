@@ -20,7 +20,7 @@ class SearchAssetViewModel : ViewModel() {
         } else {
             filteredAssets.value = assets.filter {
                 it.name.contains(query.lowercase(), true)
-            }.toMutableList()
+            }.toMutableList() 
         }
     }
 }

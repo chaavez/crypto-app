@@ -18,7 +18,9 @@ class SearchAssetViewModel : ViewModel() {
         if(query.isEmpty()) {
             filteredAssets.value = assets
         } else {
-            filteredAssets.value = assets.filter { it.name.contains(query.lowercase(), true) }.toMutableList()
+            filteredAssets.value = assets.filter {
+                it.name.contains(query.lowercase(), true)
+            }.toMutableList()
         }
     }
 }

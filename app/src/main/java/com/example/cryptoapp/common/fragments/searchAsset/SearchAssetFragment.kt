@@ -31,14 +31,10 @@ class SearchAssetFragment : Fragment(), OnAssetClickListener  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getAssets()
         setupLayout()
         setupRecyclerView()
         observeAssetEditText()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAssets()
     }
 
     private fun setupLayout() {

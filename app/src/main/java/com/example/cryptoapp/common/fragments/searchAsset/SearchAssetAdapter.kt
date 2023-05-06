@@ -10,7 +10,11 @@ import com.example.cryptoapp.common.models.SearchAsset
 import com.example.cryptoapp.databinding.ViewHolderSearchAssetBinding
 import kotlin.collections.ArrayList
 
-class SearchAssetAdapter(private var assets : List<SearchAsset> = ArrayList()) : RecyclerView.Adapter<SearchAssetViewHolder>() {
+interface OnAssetClickListener {
+    fun onAssetClick(searchAsset: SearchAsset)
+}
+
+class SearchAssetAdapter(private var assets : List<SearchAsset> = ArrayList(), val listener: OnAssetClickListener) : RecyclerView.Adapter<SearchAssetViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAssetViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ViewHolderSearchAssetBinding.inflate(inflater, parent, false)
@@ -21,7 +25,7 @@ class SearchAssetAdapter(private var assets : List<SearchAsset> = ArrayList()) :
     override fun getItemCount() = assets.size
 
     override fun onBindViewHolder(holder: SearchAssetViewHolder, position: Int) {
-        holder.bind(assets[position])
+        holder.bind(assets[position], listener)
     }
 
     fun setAssets(asset: List<SearchAsset>) {
@@ -31,7 +35,7 @@ class SearchAssetAdapter(private var assets : List<SearchAsset> = ArrayList()) :
 }
 
 class SearchAssetViewHolder(private val binding: ViewHolderSearchAssetBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(searchAsset: SearchAsset) {
+    fun bind(searchAsset: SearchAsset, listener: OnAssetClickListener) {
         val requestOptions = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
@@ -42,5 +46,9 @@ class SearchAssetViewHolder(private val binding: ViewHolderSearchAssetBinding) :
             .into(binding.iconImageView)
         binding.symbolTextView.text = searchAsset.symbol
         binding.nameTextView.text = searchAsset.name
+
+        binding.root.setOnClickListener {
+            listener.onAssetClick(searchAsset)
+        }
     }
 }

@@ -10,14 +10,14 @@ class Mock {
                 SearchAsset(
                     "BTC",
                     "Bitcoin",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
                 )
             )
             list.add(
                 SearchAsset(
                     "ETH",
                     "Ethereum",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
                 )
             )
             list.add(
@@ -31,14 +31,14 @@ class Mock {
                 SearchAsset(
                     "BTC",
                     "Bitcoin",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
                 )
             )
             list.add(
                 SearchAsset(
                     "ETH",
                     "Ethereum",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
                 )
             )
             list.add(
@@ -52,39 +52,14 @@ class Mock {
                 SearchAsset(
                     "BTC",
                     "Bitcoin",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
                 )
             )
             list.add(
                 SearchAsset(
                     "ETH",
                     "Ethereum",
-                    "",
-                )
-            )
-            list.add(
-                SearchAsset(
-                    "BNB",
-                    "BNB",
-                    "",
-                )
-            )
-            return list
-        }
-        fun mockData2(): ArrayList<SearchAsset> {
-            val list = ArrayList<SearchAsset>()
-            list.add(
-                SearchAsset(
-                    "BTC",
-                    "Bitcoin",
-                    "",
-                )
-            )
-            list.add(
-                SearchAsset(
-                    "ETH",
-                    "Ethereum",
-                    "",
+                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
                 )
             )
             list.add(

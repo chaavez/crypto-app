@@ -1,8 +1,12 @@
 package com.example.cryptoapp.features.simulator
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.InputType
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.method.DigitsKeyListener
+import android.text.style.RelativeSizeSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +14,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
@@ -31,6 +39,7 @@ class SimulatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        assetValueButton()
         setupLayout()
         setupButtonAssetNavigate()
         maskedDate()
@@ -124,4 +133,45 @@ class SimulatorFragment : Fragment() {
         dateFormat.addTextChangedListener(listener)
         dateFormat.onFocusChangeListener = listener
     }
+
+    private fun assetValueButton() {
+        val name = arguments?.getString("name") ?: "Bitcoin"
+        val symbol = arguments?.getString("symbol") ?: "BTC"
+        val icon = arguments?.getString("icon") ?: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
+        val arrowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow)
+
+        val requestOptions = RequestOptions()
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_background)
+
+        val spannable = SpannableStringBuilder("$symbol $name")
+        spannable.setSpan(
+            RelativeSizeSpan(1f),
+            0,
+            symbol?.length ?: 0,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannable.setSpan(
+            RelativeSizeSpan(0.8f),
+            (symbol?.length ?: 0) +1,
+            spannable.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        binding.assetButton.text = spannable
+        Glide.with(requireContext())
+            .applyDefaultRequestOptions(requestOptions)
+            .load(icon)
+            .apply(RequestOptions.overrideOf(35,35))
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    binding.assetButton.setCompoundDrawablesRelativeWithIntrinsicBounds(resource, null, arrowIcon, null)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
+    }
 }
+
+

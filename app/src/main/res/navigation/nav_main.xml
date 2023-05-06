@@ -14,7 +14,17 @@
         android:id="@+id/menu_simulator"
         android:name="com.example.cryptoapp.features.simulator.SimulatorFragment"
         android:label="fragment_simulator"
-        tools:layout="@layout/fragment_simulator" />
+        tools:layout="@layout/fragment_simulator" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="icon"
+            app:argType="string" />
+        <argument
+            android:name="symbol"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/menu_wallet"
         android:name="com.example.cryptoapp.features.wallet.WalletFragment"

@@ -1,23 +1,20 @@
 package com.example.cryptoapp.common.fragments.searchAsset
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Icon
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.models.SearchAsset
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
 
-class SearchAssetFragment : Fragment() {
-    private val searchAssetAdapter = SearchAssetAdapter()
+class SearchAssetFragment : Fragment(), OnAssetClickListener  {
+    private val searchAssetAdapter = SearchAssetAdapter(listener = this)
     private lateinit var viewModel: SearchAssetViewModel
     private lateinit var _binding: FragmentSearchAssetBinding
     private val binding get() = _binding!!
@@ -71,5 +68,13 @@ class SearchAssetFragment : Fragment() {
                 return true
             }
         })
+    }
+
+    override fun onAssetClick(searchAsset: SearchAsset) {
+        val bundle = Bundle()
+        bundle.putString("name", searchAsset.name)
+        bundle.putString("icon", searchAsset.icon)
+        bundle.putString("symbol", searchAsset.symbol)
+        findNavController().navigate(R.id.menu_simulator, bundle)
     }
 }

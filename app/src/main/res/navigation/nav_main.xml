@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/menu_home"
-        android:name="com.example.cryptoapp.features.home.HomeFragment"
-        android:label="fragment_home"
+        android:name="com.example.cryptoapp.main.FragmentHomeContainer"
+        android:label="fragment_home_container"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/menu_simulator"
-        android:name="com.example.cryptoapp.features.simulator.SimulatorFragment"
-        android:label="fragment_simulator"
+        android:name="com.example.cryptoapp.main.FragmentSimulatorContainer"
+        android:label="fragment_simulator_container"
         tools:layout="@layout/fragment_simulator" >
         <argument
             android:name="name"
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/menu_wallet"
-        android:name="com.example.cryptoapp.features.wallet.WalletFragment"
-        android:label="fragment_wallet"
+        android:name="com.example.cryptoapp.main.FragmentWalletContainer"
+        android:label="fragment_wallet_container"
         tools:layout="@layout/fragment_wallet" />
 </navigation>

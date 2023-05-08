@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -47,7 +48,11 @@ class SimulatorFragment : Fragment() {
 
     private fun setupButtonAssetNavigate() {
         binding.assetButton.setOnClickListener {
-            (activity as? MainActivity)?.showSearchAssetsFragment()
+            val searchAssetFragment = SearchAssetFragment()
+            childFragmentManager.beginTransaction()
+                .add(R.id.simulator_fragment, searchAssetFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 

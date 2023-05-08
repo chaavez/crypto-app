@@ -2,8 +2,10 @@ package com.example.cryptoapp.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -60,13 +62,5 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-    }
-
-    fun showSearchAssetsFragment() {
-        val searchAssetFragment = SearchAssetFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment, searchAssetFragment)
-            .addToBackStack(null)
-            .commit()
     }
 }

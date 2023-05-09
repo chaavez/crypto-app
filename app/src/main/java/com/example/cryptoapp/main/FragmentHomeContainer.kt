@@ -28,9 +28,6 @@ class FragmentHomeContainer : Fragment() {
 
     private fun start() {
         val homeFragment = HomeFragment()
-        childFragmentManager.beginTransaction()
-            .add(R.id.home_container, homeFragment)
-            .addToBackStack(null)
-            .commit()
+        (activity as? MainActivity)?.addFragment(R.id.home_container, homeFragment)
     }
 }

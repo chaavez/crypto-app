@@ -63,4 +63,19 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+    fun addFragment(fromFragment: Int, toFrament: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction
+            .add(fromFragment, toFrament)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun pop() {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.popBackStack()
+    }
 }

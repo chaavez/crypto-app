@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.SearchAsset
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
+import com.example.cryptoapp.main.MainActivity
 
 class SearchAssetFragment : Fragment(), OnAssetClickListener  {
     private val searchAssetAdapter = SearchAssetAdapter(listener = this)
@@ -41,7 +42,7 @@ class SearchAssetFragment : Fragment(), OnAssetClickListener  {
         binding.searchAssetToolbar.toolbarTextView.text = getString(R.string.search_asset_tittle)
         binding.searchAssetToolbar.toolbarImageButton.setImageResource(R.drawable.ic_arrow_back)
         binding.searchAssetToolbar.toolbarImageButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            (activity as? MainActivity)?.pop()
         }
     }
 

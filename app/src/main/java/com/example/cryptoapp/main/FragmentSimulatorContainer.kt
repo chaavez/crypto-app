@@ -29,9 +29,6 @@ class FragmentSimulatorContainer : Fragment() {
 
     private fun start() {
         val simulatorFragment = SimulatorFragment()
-        childFragmentManager.beginTransaction()
-            .add(R.id.simulator_container, simulatorFragment)
-            .addToBackStack(null)
-            .commit()
+        (activity as? MainActivity)?.addFragment(R.id.simulator_container, simulatorFragment)
     }
 }

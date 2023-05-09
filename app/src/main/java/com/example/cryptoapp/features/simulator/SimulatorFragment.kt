@@ -49,7 +49,7 @@ class SimulatorFragment : Fragment() {
     private fun setupButtonAssetNavigate() {
         binding.assetButton.setOnClickListener {
             val searchAssetFragment = SearchAssetFragment()
-            (activity as? MainActivity)?.addFragment(R.id.simulator_fragment, searchAssetFragment)
+            (activity as? MainActivity)?.addFragment(R.id.simulator_container, searchAssetFragment)
         }
     }
 

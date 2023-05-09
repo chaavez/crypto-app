@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewPager = binding.mainFragment
         viewPager.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+        viewPager.isUserInputEnabled = false
     }
 
 

@@ -2,12 +2,12 @@ package com.example.cryptoapp.common.fragments.searchAsset
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.common.models.Mock
-import com.example.cryptoapp.common.models.SearchAsset
 
 class SearchAssetViewModel : ViewModel() {
-    private var assets = mutableListOf<SearchAsset>()
-    val filteredAssets = MutableLiveData<MutableList<SearchAsset>>()
+    private var assets = mutableListOf<Asset>()
+    val filteredAssets = MutableLiveData<MutableList<Asset>>()
 
     fun getAssets() {
         assets = Mock.mockData()

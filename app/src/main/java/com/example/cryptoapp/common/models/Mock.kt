@@ -4,69 +4,87 @@ class Mock {
 
     companion object {
 
-        fun mockData(): MutableList<SearchAsset>{
-            val list = mutableListOf<SearchAsset>()
+        fun mockData(): MutableList<Asset>{
+            val list = mutableListOf<Asset>()
             list.add(
-                SearchAsset(
+                Asset(
                     "BTC",
                     "Bitcoin",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "ETH",
                     "Ethereum",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "BNB",
                     "BNB",
                     "",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "BTC",
                     "Bitcoin",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "ETH",
                     "Ethereum",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "BNB",
                     "BNB",
                     "",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "BTC",
                     "Bitcoin",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "ETH",
                     "Ethereum",
                     "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    0.0,
+                    0.0
                 )
             )
             list.add(
-                SearchAsset(
+                Asset(
                     "BNB",
                     "BNB",
                     "",
+                    0.0,
+                    0.0
                 )
             )
             return list

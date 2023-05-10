@@ -15,16 +15,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.LOG
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
+import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragmentListener
+import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.common.models.FixedAssets
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 
-class SimulatorFragment : Fragment() {
+class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
     private lateinit var _binding: FragmentSimulatorBinding
     private lateinit var viewModel: SimulatorViewModel
     private val binding get() = _binding!!
@@ -40,7 +44,7 @@ class SimulatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        assetValueButton()
+        assetValueButton(FixedAssets.BTC())
         setupLayout()
         setupButtonAssetNavigate()
         maskedDate()
@@ -48,7 +52,7 @@ class SimulatorFragment : Fragment() {
 
     private fun setupButtonAssetNavigate() {
         binding.assetButton.setOnClickListener {
-            val searchAssetFragment = SearchAssetFragment()
+            val searchAssetFragment = SearchAssetFragment(this)
             (activity as? MainActivity)?.addFragment(R.id.simulator_container, searchAssetFragment)
         }
     }
@@ -136,26 +140,24 @@ class SimulatorFragment : Fragment() {
         dateFormat.onFocusChangeListener = listener
     }
 
-    private fun assetValueButton() {
-        val name = arguments?.getString("name") ?: "Bitcoin"
-        val symbol = arguments?.getString("symbol") ?: "BTC"
-        val icon = arguments?.getString("icon") ?: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
+    private fun assetValueButton(asset: Asset) {
+
         val arrowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow)
 
         val requestOptions = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
 
-        val spannable = SpannableStringBuilder("$symbol $name")
+        val spannable = SpannableStringBuilder("${asset.symbol} ${asset.name}")
         spannable.setSpan(
             RelativeSizeSpan(1f),
             0,
-            symbol?.length ?: 0,
+            asset.symbol?.length ?: 0,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         spannable.setSpan(
             RelativeSizeSpan(0.8f),
-            (symbol?.length ?: 0) +1,
+            (asset.symbol?.length ?: 0) +1,
             spannable.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -163,8 +165,7 @@ class SimulatorFragment : Fragment() {
         binding.assetButton.text = spannable
         Glide.with(requireContext())
             .applyDefaultRequestOptions(requestOptions)
-            .load(icon)
-            .apply(RequestOptions.overrideOf(35,35))
+            .load(asset.icon)
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     binding.assetButton.setCompoundDrawablesRelativeWithIntrinsicBounds(resource, null, arrowIcon, null)
@@ -173,6 +174,10 @@ class SimulatorFragment : Fragment() {
                 override fun onLoadCleared(placeholder: Drawable?) {
                 }
             })
+    }
+
+    override fun didAssetClicked(asset: Asset) {
+        assetValueButton(asset)
     }
 }
 

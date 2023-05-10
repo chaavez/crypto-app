@@ -7,19 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.models.SearchAsset
+import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.common.models.FixedAssets
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
 import com.example.cryptoapp.main.MainActivity
 
-class SearchAssetFragment : Fragment(), OnAssetClickListener  {
+interface SearchAssetFragmentListener {
+    fun didAssetClicked(asset: Asset)
+}
+
+class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : Fragment(), SearchAssetAdapterListener  {
     private val searchAssetAdapter = SearchAssetAdapter(listener = this)
+
     private lateinit var viewModel: SearchAssetViewModel
     private lateinit var _binding: FragmentSearchAssetBinding
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,11 +71,8 @@ class SearchAssetFragment : Fragment(), OnAssetClickListener  {
         })
     }
 
-    override fun onAssetClick(searchAsset: SearchAsset) {
-        val bundle = Bundle()
-        bundle.putString("name", searchAsset.name)
-        bundle.putString("icon", searchAsset.icon)
-        bundle.putString("symbol", searchAsset.symbol)
-        findNavController().navigate(R.id.menu_simulator, bundle)
+    override fun didAssetClicked(asset: Asset) {
+        listener?.didAssetClicked(asset)
+        (activity as? MainActivity)?.pop()
     }
 }

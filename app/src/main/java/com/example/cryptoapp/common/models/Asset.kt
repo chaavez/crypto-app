@@ -7,3 +7,17 @@ data class Asset(
     val price: Double,
     val variation: Double
 )
+
+class FixedAssets {
+    companion object {
+        fun BTC(): Asset {
+            return Asset(
+                "BTC",
+                "Bitcoin",
+                "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+                0.0,
+                0.0
+            )
+        }
+    }
+}

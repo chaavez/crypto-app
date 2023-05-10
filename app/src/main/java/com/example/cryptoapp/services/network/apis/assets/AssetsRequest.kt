@@ -1,6 +1,5 @@
 package com.example.cryptoapp.services.network.apis.assets
 
-import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.services.network.httpProvider.APIUserErrors
 import com.example.cryptoapp.services.network.httpProvider.ApiError
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
@@ -17,7 +16,7 @@ interface AssetsApi {
     fun assets(): Call<ResponseBody>
 }
 
-class AssetsRequest(val serviceProvider: RetrofitProvider) {
+class AssetsRequest(private val serviceProvider: RetrofitProvider) {
     fun get(onResult: (List<AssetResponse>?, ApiError?) -> Unit) {
         val request = serviceProvider.retrofit().create(AssetsApi::class.java)
 

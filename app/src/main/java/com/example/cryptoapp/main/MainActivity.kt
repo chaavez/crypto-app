@@ -13,7 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.ViewPagerAdapter
-import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
+import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.features.home.HomeFragment
 import com.example.cryptoapp.features.simulator.SimulatorFragment

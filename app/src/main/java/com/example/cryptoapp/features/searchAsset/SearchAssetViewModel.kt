@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common.fragments.searchAsset
+package com.example.cryptoapp.features.searchAsset
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
     android:background="@color/primary_100"
-    tools:context=".common.fragments.searchAsset.SearchAssetFragment">
+    tools:context=".features.searchAsset.SearchAssetFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

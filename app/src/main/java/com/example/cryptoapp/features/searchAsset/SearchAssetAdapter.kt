@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common.fragments.searchAsset
+package com.example.cryptoapp.features.searchAsset
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

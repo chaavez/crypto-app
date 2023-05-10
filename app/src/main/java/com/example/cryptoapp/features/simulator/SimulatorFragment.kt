@@ -15,13 +15,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.LOG
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragment
-import com.example.cryptoapp.common.fragments.searchAsset.SearchAssetFragmentListener
+import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
+import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.common.models.FixedAssets
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding

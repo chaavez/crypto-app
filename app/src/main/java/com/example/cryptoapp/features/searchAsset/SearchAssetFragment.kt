@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common.fragments.searchAsset
+package com.example.cryptoapp.features.searchAsset
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -18,7 +18,8 @@ interface SearchAssetFragmentListener {
     fun didAssetClicked(asset: Asset)
 }
 
-class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : Fragment(), SearchAssetAdapterListener  {
+class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : Fragment(),
+    SearchAssetAdapterListener {
     private val searchAssetAdapter = SearchAssetAdapter(listener = this)
 
     private lateinit var viewModel: SearchAssetViewModel

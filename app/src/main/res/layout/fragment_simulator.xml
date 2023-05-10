@@ -28,6 +28,7 @@
         android:textAllCaps="false"
         android:textAlignment="textStart"
         android:drawableEnd="@drawable/ic_arrow"
+        android:backgroundTint="@color/primary_200"
         app:strokeColor="@color/tertiary_100"
         app:strokeWidth="1dp"
         app:layout_constraintEnd_toEndOf="parent"

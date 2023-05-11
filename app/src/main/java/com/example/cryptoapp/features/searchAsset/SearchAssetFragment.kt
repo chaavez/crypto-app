@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
-import com.example.cryptoapp.common.models.FixedAssets
 import com.example.cryptoapp.databinding.FragmentSearchAssetBinding
 import com.example.cryptoapp.main.MainActivity
 
@@ -21,7 +21,7 @@ interface SearchAssetFragmentListener {
 class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : Fragment(),
     SearchAssetAdapterListener {
     private val searchAssetAdapter = SearchAssetAdapter(listener = this)
-
+    private lateinit var progressBar: ProgressBar
     private lateinit var viewModel: SearchAssetViewModel
     private lateinit var _binding: FragmentSearchAssetBinding
     private val binding get() = _binding!!
@@ -31,16 +31,27 @@ class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : F
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchAssetBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(SearchAssetViewModel::class.java)
+        viewModel = ViewModelProvider(this, SearchAssetViewModelFactory(SearchAssetRepository())).get(SearchAssetViewModel::class.java)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getAssets()
+        progressBarIndicator()
         setupLayout()
         setupRecyclerView()
         observeAssetEditText()
+        setupSearchView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAssets()
+    }
+
+    private fun progressBarIndicator() {
+        progressBar = binding.progressCircular
+        progressBar.visibility = View.VISIBLE
     }
 
     private fun setupLayout() {
@@ -54,6 +65,14 @@ class SearchAssetFragment(private val listener: SearchAssetFragmentListener) : F
     private fun setupRecyclerView() {
         binding.searchAssetRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchAssetRecyclerView.adapter = searchAssetAdapter
+        viewModel.assets.observe(viewLifecycleOwner) { newData ->
+            searchAssetAdapter.setAssets(newData)
+            binding.searchAssetRecyclerView.adapter?.notifyDataSetChanged()
+            progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setupSearchView() {
         viewModel.filteredAssets.observe(viewLifecycleOwner) { assets ->
             searchAssetAdapter.setAssets(assets)
         }

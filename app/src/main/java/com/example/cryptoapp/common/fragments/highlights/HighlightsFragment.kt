@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cryptoapp.databinding.FragmentHighlightsBinding
 
 class HighlightsFragment : Fragment() {
+    private lateinit var progressBar: ProgressBar
     private val highlightsAdapter = HighlightsAdapter()
     private lateinit var viewModel: HighlightsViewModel
     private lateinit var _binding: FragmentHighlightsBinding
@@ -26,6 +28,7 @@ class HighlightsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressBarIndicator()
         setupRecyclerView()
     }
 
@@ -39,12 +42,18 @@ class HighlightsFragment : Fragment() {
         viewModel.stopPolling()
     }
 
+    private fun progressBarIndicator() {
+        progressBar = binding.progressCircular
+        progressBar.visibility = View.VISIBLE
+    }
+
     private fun setupRecyclerView() {
         binding.highlightsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
         binding.highlightsRecyclerView.adapter = highlightsAdapter
         viewModel.assets.observe(viewLifecycleOwner) { newData ->
             highlightsAdapter.setAssets(newData)
             binding.highlightsRecyclerView.adapter?.notifyDataSetChanged()
+            progressBar.visibility = View.GONE
         }
     }
 }

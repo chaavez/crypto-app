@@ -23,19 +23,18 @@ class ErrorFragment(private val listener: ErrorFragmentListener) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-        binding = FragmentErrorBinding.inflate(inflater, container, false)
+        _binding = FragmentErrorBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    //    setupLayout()
+        setupLayout()
     }
 
-//    private fun setupLayout() {
-//        binding.refreshButton.setOnClickListener {
-//            listener.didTryAgainClicked()
-//        }
-//    }
+    private fun setupLayout() {
+        binding.refreshButton.setOnClickListener {
+            listener.didTryAgainClicked()
+        }
+    }
 }

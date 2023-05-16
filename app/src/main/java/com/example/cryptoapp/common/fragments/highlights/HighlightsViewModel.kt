@@ -15,7 +15,6 @@ class HighlightsViewModel(private val repository: HighlightsRepository) : ViewMo
     private val handler = Handler(Looper.getMainLooper())
     private val delay = 10000L
     private val runnable = object : Runnable {
-
         override fun run() {
             getAssets()
             handler.postDelayed(this, delay)
@@ -34,8 +33,9 @@ class HighlightsViewModel(private val repository: HighlightsRepository) : ViewMo
     }
 
     fun getAssets() {
-        viewState.value = HighlightsFragment.State.LOADING
+        viewState.value = HighlightsFragment.State.ERROR
         repository.fetchAssets { assets ->
+            viewState.value = HighlightsFragment.State.CONTENT
             this.assets.value = assets
             startPolling()
         }

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_highlights"
+    android:id="@+id/fragment_error"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".common.fragments.error.ErrorFragment">
@@ -36,17 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/error_text_view" />
 
-<!--    <androidx.appcompat.widget.AppCompatImageButton-->
-<!--        android:id="@+id/refresh_button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:src="@drawable/ic_reload"-->
-<!--        android:background="@color/primary_100"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/error_content_text_view" />-->
-
-
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_reload"
+        android:background="@color/primary_100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/error_content_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

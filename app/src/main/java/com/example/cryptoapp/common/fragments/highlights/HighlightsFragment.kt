@@ -5,24 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
-import com.example.cryptoapp.common.fragments.mostValued.MostValuedFragment
+import com.example.cryptoapp.common.fragments.error.ErrorFragment
+import com.example.cryptoapp.common.fragments.error.ErrorFragmentListener
 import com.example.cryptoapp.databinding.FragmentHighlightsBinding
 import com.example.cryptoapp.main.MainActivity
 
-class HighlightsFragment : Fragment() {
-
+class HighlightsFragment : Fragment(), ErrorFragmentListener {
     enum class State {
         CONTENT,
         ERROR,
         LOADING
     }
 
-    private lateinit var progressBar: ProgressBar
     private val highlightsAdapter = HighlightsAdapter()
     private lateinit var viewModel: HighlightsViewModel
     private lateinit var _binding: FragmentHighlightsBinding
@@ -59,7 +57,6 @@ class HighlightsFragment : Fragment() {
         viewModel.assets.observe(viewLifecycleOwner) { newData ->
             highlightsAdapter.setAssets(newData)
             binding.highlightsRecyclerView.adapter?.notifyDataSetChanged()
-            progressBar.visibility = View.GONE
         }
     }
 
@@ -67,16 +64,28 @@ class HighlightsFragment : Fragment() {
         viewModel.viewState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 State.CONTENT -> {
-
+                    binding.fragmentHighlightsState.visibility = View.INVISIBLE
+                    binding.highlightsRecyclerView.visibility = View.VISIBLE
                 }
                 State.LOADING -> {
                     val loadingFragment = LoadingFragment()
-                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_highlights, loadingFragment)
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_highlights_state, loadingFragment)
+
+                    binding.fragmentHighlightsState.visibility = View.VISIBLE
+                    binding.highlightsRecyclerView.visibility = View.INVISIBLE
                 }
                 State.ERROR -> {
+                    val errorFragment = ErrorFragment(this)
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_highlights_state, errorFragment)
 
+                    binding.fragmentHighlightsState.visibility = View.VISIBLE
+                    binding.highlightsRecyclerView.visibility = View.INVISIBLE
                 }
             }
         }
+    }
+
+    override fun didTryAgainClicked() {
+        viewModel.getAssets()
     }
 }

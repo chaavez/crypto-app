@@ -36,5 +36,15 @@
             app:layout_constraintTop_toBottomOf="@+id/highlights_text_view"
             app:spanCount="2" />
 
+        <FrameLayout
+            android:id="@+id/fragment_highlights_state"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/highlights_recycler_view" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

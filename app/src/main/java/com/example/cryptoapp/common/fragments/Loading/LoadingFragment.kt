@@ -17,8 +17,18 @@ class LoadingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-        binding = FragmentLoadingBinding.inflate(inflater, container, false)
+        _binding = FragmentLoadingBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        startProgressBarIndicator()
+    }
+
+    private fun startProgressBarIndicator() {
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
 }

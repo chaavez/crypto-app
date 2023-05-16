@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/primary_100"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_highlights"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".common.fragments.error.ErrorFragment">
 
     <TextView
         android:id="@+id/error_text_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/error_tittle"
+        android:textAlignment="center"
+        android:textColor="@color/tertiary_100"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/error_tittle"
-        android:textSize="16sp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/tertiary_100"
-        android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,15 +36,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/error_text_view" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_reload"
-        android:background="@color/primary_100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error_content_text_view" />
+<!--    <androidx.appcompat.widget.AppCompatImageButton-->
+<!--        android:id="@+id/refresh_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:src="@drawable/ic_reload"-->
+<!--        android:background="@color/primary_100"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/error_content_text_view" />-->
 
 
 

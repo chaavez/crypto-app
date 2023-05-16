@@ -8,9 +8,20 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
+import com.example.cryptoapp.common.fragments.mostValued.MostValuedFragment
 import com.example.cryptoapp.databinding.FragmentHighlightsBinding
+import com.example.cryptoapp.main.MainActivity
 
 class HighlightsFragment : Fragment() {
+
+    enum class State {
+        CONTENT,
+        ERROR,
+        LOADING
+    }
+
     private lateinit var progressBar: ProgressBar
     private val highlightsAdapter = HighlightsAdapter()
     private lateinit var viewModel: HighlightsViewModel
@@ -28,8 +39,8 @@ class HighlightsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressBarIndicator()
         setupRecyclerView()
+        setupState()
     }
 
     override fun onResume() {
@@ -42,11 +53,6 @@ class HighlightsFragment : Fragment() {
         viewModel.stopPolling()
     }
 
-    private fun progressBarIndicator() {
-        progressBar = binding.progressCircular
-        progressBar.visibility = View.VISIBLE
-    }
-
     private fun setupRecyclerView() {
         binding.highlightsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
         binding.highlightsRecyclerView.adapter = highlightsAdapter
@@ -54,6 +60,23 @@ class HighlightsFragment : Fragment() {
             highlightsAdapter.setAssets(newData)
             binding.highlightsRecyclerView.adapter?.notifyDataSetChanged()
             progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setupState() {
+        viewModel.viewState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                State.CONTENT -> {
+
+                }
+                State.LOADING -> {
+                    val loadingFragment = LoadingFragment()
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_highlights, loadingFragment)
+                }
+                State.ERROR -> {
+
+                }
+            }
         }
     }
 }

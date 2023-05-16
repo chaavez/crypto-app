@@ -2,11 +2,13 @@ package com.example.cryptoapp.common.fragments.highlights
 
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.common.models.Asset
 
 class HighlightsViewModel(private val repository: HighlightsRepository) : ViewModel() {
+    val viewState = MutableLiveData<HighlightsFragment.State>()
     val assets = MutableLiveData<MutableList<Asset>>()
 
     private var startedPolling = false
@@ -32,6 +34,7 @@ class HighlightsViewModel(private val repository: HighlightsRepository) : ViewMo
     }
 
     fun getAssets() {
+        viewState.value = HighlightsFragment.State.LOADING
         repository.fetchAssets { assets ->
             this.assets.value = assets
             startPolling()

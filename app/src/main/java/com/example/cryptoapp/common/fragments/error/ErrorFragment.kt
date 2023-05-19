@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentErrorBinding
-import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
-import com.example.cryptoapp.main.MainActivity
 
 interface ErrorFragmentListener {
     fun didTryAgainClicked()

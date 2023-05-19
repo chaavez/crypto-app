@@ -2,7 +2,6 @@ package com.example.cryptoapp.common.fragments.highlights
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.common.models.Asset
@@ -15,6 +14,7 @@ class HighlightsViewModel(private val repository: HighlightsRepository) : ViewMo
     private val handler = Handler(Looper.getMainLooper())
     private val delay = 10000L
     private val runnable = object : Runnable {
+
         override fun run() {
             fetchAssets()
             handler.postDelayed(this, delay)

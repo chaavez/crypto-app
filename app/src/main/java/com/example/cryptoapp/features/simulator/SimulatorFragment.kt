@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -60,38 +61,44 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         binding.simulatorToolbar.toolbarTextView.text = getString(R.string.simulator_title)
         binding.simulatorToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
         binding.amountTextInputEditText.addTextChangedListener {
-            saveAmountAndDate()
             toggleTextViewsVisibility()
+            saveAmountAndDate()
         }
 
         binding.dateTextInputEditText.addTextChangedListener {
             saveAmountAndDate()
-            toggleTextViewsVisibility()
+        }
+
+        viewModel.saveButtonError.observe(viewLifecycleOwner) { error ->
+            setErrorInSaveButton(error)
         }
 
         viewModel.saveButtonColor.observe(viewLifecycleOwner) { color ->
             setSaveButtonColorAndEnable(color)
-            toggleTextViewsVisibility()
         }
 
         binding.dateTextInputEditText.addTextChangedListener {
             priceInDate()
-            toggleTextViewsVisibility()
         }
 
         viewModel.datePriceInTittle.observe(viewLifecycleOwner) { date ->
             setDatePriceInTitle(date)
-            toggleTextViewsVisibility()
         }
     }
 
     private fun saveAmountAndDate() {
-        viewModel.saveInWallet(binding.amountTextInputEditText.text.toString(), binding.dateTextInputEditText.text.toString())
+        viewModel.saveInWallet(binding.amountTextInputEditText.text.toString(), binding.dateTextInputEditText.text.toString(), requireContext())
     }
 
     private fun setSaveButtonColorAndEnable(color: Int) {
         binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), color))
         binding.saveInWalletButton.isEnabled = (color != R.color.primary_300)
+    }
+
+    private fun setErrorInSaveButton(error: String?) {
+        binding.dateOutlinedTextField.isErrorEnabled = true
+        binding.dateOutlinedTextField.error = error
+        toggleTextViewsVisibility()
     }
 
     private fun priceInDate() {
@@ -105,9 +112,10 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
     private fun toggleTextViewsVisibility() {
         val isAllFieldsFilled = !binding.amountTextInputEditText.text.isNullOrBlank()
                 && !binding.dateTextInputEditText.text.isNullOrBlank()
-                && binding.dateTextInputEditText.text!!.length == 10
 
-        if (isAllFieldsFilled) {
+        val isDateValid = viewModel.validateDate(binding.dateTextInputEditText.text.toString())
+
+        if (isAllFieldsFilled && isDateValid) {
             binding.priceInTittleTextView.visibility = View.VISIBLE
             binding.priceInTextView.visibility = View.VISIBLE
             binding.currentPriceTittleTextView.visibility = View.VISIBLE

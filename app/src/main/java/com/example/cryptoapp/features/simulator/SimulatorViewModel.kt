@@ -10,6 +10,9 @@ class SimulatorViewModel : ViewModel() {
     private val _saveButtonColor = MutableLiveData<Int>()
     val saveButtonColor: LiveData<Int> = _saveButtonColor
 
+    private val _saveButtonError = MutableLiveData<String?>()
+    val saveButtonError: LiveData<String?> = _saveButtonError
+
     private val _datePriceInTittle = MutableLiveData<String>()
     val datePriceInTittle: LiveData<String> = _datePriceInTittle
 
@@ -39,8 +42,17 @@ class SimulatorViewModel : ViewModel() {
         }
     }
 
-    fun saveInWallet(amount: String, date: String) {
-        if(amount.isNotEmpty() && amount != "0" && date.isNotEmpty() && date.length == 10) {
+    fun saveInWallet(amount: String, date: String, context: Context) {
+        val isDateValid = validateDate(date)
+
+        if(!isDateValid && date.length == 10) {
+            val dateError = context.getString(R.string.invalid_date)
+            _saveButtonError.value = dateError
+        } else {
+            _saveButtonError.value = null
+        }
+
+        if(amount.isNotEmpty() && amount != "0" && isDateValid) {
             _saveButtonColor.value = R.color.secondary_200
         } else {
             _saveButtonColor.value = R.color.primary_300
@@ -85,5 +97,10 @@ class SimulatorViewModel : ViewModel() {
             _resultColor.value = R.color.secondary_100
             _resultTittle.value = "$resultTittle $resultLoses"
         }
+    }
+
+    fun validateDate(date: String): Boolean {
+        val regex = """^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(\d{4})$""".toRegex()
+        return regex.matches(date)
     }
 }

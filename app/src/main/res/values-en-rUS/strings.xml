@@ -35,4 +35,5 @@
     <string name="error_tittle">Error!</string>
     <string name="error_content">Something unexpected happened, please try again.</string>
     <string name="invalid_date">Please enter a valid date</string>
+    <string name="invalid_amount">Please enter a valid amount</string>
 </resources>

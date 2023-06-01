@@ -34,4 +34,5 @@
     <string name="error_tittle">Erro!</string>
     <string name="error_content">Algo inesperado aconteceu, por favor tente novamente</string>
     <string name="invalid_date">Digite uma data válida</string>
+    <string name="invalid_amount">Digite uma quantidade valida</string>
 </resources>

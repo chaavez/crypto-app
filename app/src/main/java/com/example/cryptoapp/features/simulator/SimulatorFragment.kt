@@ -13,13 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
+import com.example.cryptoapp.common.fragments.error.ErrorFragment
+import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
@@ -29,6 +31,11 @@ import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 
 class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
+    enum class State {
+        STAND_BY,
+        TO_SAVE
+    }
+
     private lateinit var _binding: FragmentSimulatorBinding
     private lateinit var viewModel: SimulatorViewModel
     private val binding get() = _binding!!
@@ -44,91 +51,28 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        assetValueButton(FixedAssets.BTC())
         setupLayout()
-        setupButtonAssetNavigate()
         maskedDate()
-    }
-
-    private fun setupButtonAssetNavigate() {
-        binding.assetButton.setOnClickListener {
-            val searchAssetFragment = SearchAssetFragment(this)
-            (activity as? MainActivity)?.addFragment(R.id.simulator_container, searchAssetFragment)
-        }
+        observeViewModel()
+        setupState()
+        viewModel.loadFirstAsset()
     }
 
     private fun setupLayout() {
         binding.simulatorToolbar.toolbarTextView.text = getString(R.string.simulator_title)
         binding.simulatorToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
-        binding.amountTextInputEditText.addTextChangedListener {
-            toggleTextViewsVisibility()
-            saveAmountAndDate()
+
+        binding.assetButton.setOnClickListener {
+            val searchAssetFragment = SearchAssetFragment(this)
+            (activity as? MainActivity)?.addFragment(R.id.simulator_container, searchAssetFragment)
         }
 
-        binding.dateTextInputEditText.addTextChangedListener {
-            saveAmountAndDate()
+        binding.amountTextInputEditText.addTextChangedListener { text ->
+            viewModel.updateAmount(text.toString(), requireContext())
         }
 
-        viewModel.saveButtonError.observe(viewLifecycleOwner) { error ->
-            setErrorInSaveButton(error)
-        }
-
-        viewModel.saveButtonColor.observe(viewLifecycleOwner) { color ->
-            setSaveButtonColorAndEnable(color)
-        }
-
-        binding.dateTextInputEditText.addTextChangedListener {
-            priceInDate()
-        }
-
-        viewModel.datePriceInTittle.observe(viewLifecycleOwner) { date ->
-            setDatePriceInTitle(date)
-        }
-    }
-
-    private fun saveAmountAndDate() {
-        viewModel.saveInWallet(binding.amountTextInputEditText.text.toString(), binding.dateTextInputEditText.text.toString(), requireContext())
-    }
-
-    private fun setSaveButtonColorAndEnable(color: Int) {
-        binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), color))
-        binding.saveInWalletButton.isEnabled = (color != R.color.primary_300)
-    }
-
-    private fun setErrorInSaveButton(error: String?) {
-        binding.dateOutlinedTextField.isErrorEnabled = true
-        binding.dateOutlinedTextField.error = error
-        toggleTextViewsVisibility()
-    }
-
-    private fun priceInDate() {
-        viewModel.priceInDate(binding.dateTextInputEditText.text.toString(), requireContext())
-    }
-
-    private fun setDatePriceInTitle(date: String) {
-        binding.priceInTittleTextView.text = date
-    }
-
-    private fun toggleTextViewsVisibility() {
-        val isAllFieldsFilled = !binding.amountTextInputEditText.text.isNullOrBlank()
-                && !binding.dateTextInputEditText.text.isNullOrBlank()
-
-        val isDateValid = viewModel.validateDate(binding.dateTextInputEditText.text.toString())
-
-        if (isAllFieldsFilled && isDateValid) {
-            binding.priceInTittleTextView.visibility = View.VISIBLE
-            binding.priceInTextView.visibility = View.VISIBLE
-            binding.currentPriceTittleTextView.visibility = View.VISIBLE
-            binding.currentPriceTextView.visibility = View.VISIBLE
-            binding.resultPriceTittleTextView.visibility = View.VISIBLE
-            binding.resultPriceTextView.visibility = View.VISIBLE
-        } else {
-            binding.priceInTittleTextView.visibility = View.INVISIBLE
-            binding.priceInTextView.visibility = View.INVISIBLE
-            binding.currentPriceTittleTextView.visibility = View.INVISIBLE
-            binding.currentPriceTextView.visibility = View.INVISIBLE
-            binding.resultPriceTittleTextView.visibility = View.INVISIBLE
-            binding.resultPriceTextView.visibility = View.INVISIBLE
+        binding.dateTextInputEditText.addTextChangedListener { text ->
+            viewModel.updateDate(text.toString(), requireContext())
         }
     }
 
@@ -147,8 +91,51 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         dateFormat.onFocusChangeListener = listener
     }
 
-    private fun assetValueButton(asset: Asset) {
+    private fun observeViewModel() {
+        viewModel.asset.observe(viewLifecycleOwner) { asset ->
+            fillAssetButton(asset)
+        }
 
+        viewModel.onAmountError.observe(viewLifecycleOwner) { error ->
+            binding.amountOutlinedTextField.error = error
+        }
+
+        viewModel.onDateError.observe(viewLifecycleOwner) { error ->
+            binding.dateOutlinedTextField.error = error
+        }
+
+        viewModel.datePriceInTittle.observe(viewLifecycleOwner) { date ->
+            setDatePriceInTitle(date)
+        }
+    }
+
+    private fun setupState() {
+        viewModel.viewState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                State.STAND_BY -> {
+                    setupAssetPrices(View.INVISIBLE)
+                    binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_300))
+                    binding.saveInWalletButton.isEnabled = false
+                }
+                State.TO_SAVE -> {
+                    setupAssetPrices(View.VISIBLE)
+                    binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary_200))
+                    binding.saveInWalletButton.isEnabled = true
+                }
+            }
+        }
+    }
+
+    private fun setupAssetPrices(visibility: Int) {
+        binding.priceInTittleTextView.visibility = visibility
+        binding.priceInTextView.visibility = visibility
+        binding.currentPriceTittleTextView.visibility = visibility
+        binding.currentPriceTextView.visibility = visibility
+        binding.resultPriceTittleTextView.visibility = visibility
+        binding.resultPriceTextView.visibility = visibility
+    }
+
+    private fun fillAssetButton(asset: Asset) {
         val arrowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow)
 
         val requestOptions = RequestOptions()
@@ -183,8 +170,16 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
             })
     }
 
+    private fun priceInDate() {
+        viewModel.priceInDate(binding.dateTextInputEditText.text.toString(), requireContext())
+    }
+
+    private fun setDatePriceInTitle(date: String) {
+        binding.priceInTittleTextView.text = date
+    }
+
     override fun didAssetClicked(asset: Asset) {
-        assetValueButton(asset)
+        viewModel.updateAsset(asset)
     }
 }
 

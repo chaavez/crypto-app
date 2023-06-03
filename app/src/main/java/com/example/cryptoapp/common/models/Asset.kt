@@ -15,7 +15,7 @@ class FixedAssets {
                 "BTC",
                 "Bitcoin",
                 "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
-                0.0,
+                140000.0,
                 0.0
             )
         }

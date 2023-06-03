@@ -31,7 +31,9 @@ class HighlightsFragment : Fragment(), ErrorFragmentListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHighlightsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireParentFragment(), HighlightsViewModelFactory(HighlightsRepository())).get(HighlightsViewModel::class.java)
+        viewModel = ViewModelProvider(requireParentFragment(), HighlightsViewModelFactory(
+            HighlightsRepository()
+        ))[HighlightsViewModel::class.java]
         return binding.root
     }
 

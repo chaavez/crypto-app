@@ -162,6 +162,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/result_price_tittle_text_view" />
 
+    <ProgressBar
+        android:id="@+id/simulator_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/save_in_wallet_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_outlined_text_field" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_in_wallet_button"
         android:layout_width="match_parent"

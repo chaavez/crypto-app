@@ -9,7 +9,7 @@ class MostValuedRepository {
     fun fetchAssets(callback: (MutableList<Asset>) -> Unit) {
         val assetsRequest = AssetsRequest(RetrofitProvider())
 
-        assetsRequest.get { assetsResponse, apiError ->
+        assetsRequest.getAssets { assetsResponse, apiError ->
             callback(assetsResponse?.let { converter(it) } as MutableList<Asset>)
         }
     }

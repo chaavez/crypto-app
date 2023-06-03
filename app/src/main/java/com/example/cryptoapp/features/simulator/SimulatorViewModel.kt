@@ -6,12 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
+import com.example.cryptoapp.common.fragments.highlights.HighlightsRepository
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.common.models.FixedAssets
+import java.text.SimpleDateFormat
+import java.util.*
 
-class SimulatorViewModel : ViewModel() {
+class SimulatorViewModel(private val repository: SimulatorRepository) : ViewModel() {
     private var currentAmount: String = ""
     private var currentDate: String = ""
+
+
+    val viewState = MutableLiveData<SimulatorFragment.State>()
 
     private val _currentAsset = MutableLiveData<Asset>()
     val asset: LiveData<Asset> = _currentAsset
@@ -22,24 +28,7 @@ class SimulatorViewModel : ViewModel() {
     private val _onDateError = MutableLiveData<String?>()
     val onDateError: LiveData<String?> = _onDateError
 
-    private val _datePriceInTittle = MutableLiveData<String>()
-    val datePriceInTittle: LiveData<String> = _datePriceInTittle
-
-    private val _resultTittle = MutableLiveData<String>()
-    val resultTittle: LiveData<String> = _resultTittle
-
-    private val _resultPrice = MutableLiveData<String>()
-    val resultPrice: LiveData<String> = _resultPrice
-
-    private val _priceIn = MutableLiveData<String>()
-    val priceIn: LiveData<String> = _priceIn
-
-    private val _currentPrice = MutableLiveData<String>()
-    val currentPrice: LiveData<String> = _currentPrice
-
-    val viewState = MutableLiveData<SimulatorFragment.State>()
-
-    init {  }
+    val assetPricesFormatter =  MutableLiveData<AssetPricesFormatter>()
 
     fun loadFirstAsset() {
         _currentAsset.value = FixedAssets.BTC()
@@ -73,53 +62,62 @@ class SimulatorViewModel : ViewModel() {
     }
 
     private fun checkFields() {
-        viewState.value = if (validateAmount() && validateDate()) SimulatorFragment.State.TO_SAVE else SimulatorFragment.State.STAND_BY
-    }
-
-    fun priceInDate(date: String, context: Context) {
-        if(date.isNotEmpty()) {
-            val dateIn = context.getString(R.string.simulator_price_in)
-            _datePriceInTittle.value = "$dateIn $date"
+        if (validateAmount() && validateDate()) {
+            viewState.value = SimulatorFragment.State.LOADING
+            _currentAsset.value?.let { currentAsset ->
+                repository.fetchAsset(currentAsset.symbol, convertDate(currentDate)) { oldAsset ->
+                    assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset)
+                    viewState.value = SimulatorFragment.State.TO_SAVE
+                }
+            }
+        } else {
+            viewState.value = SimulatorFragment.State.STAND_BY
         }
     }
 
-    fun princeIn(amount: String, value: String, context: Context) {
-        val moneySymbol = context.getString(R.string.simulator_money_symbol)
-        if(amount > 0.0.toString()) {
-            val multiply = amount.toDouble() * value.toDouble()
-            _priceIn.value = "$moneySymbol $multiply"
+    fun convertDate(dateString: String): String {
+        val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val date = inputFormat.parse(dateString)
+        return outputFormat.format(date)
+    }
+}
+
+class AssetPricesFormatter(
+    val oldAssetDate: String,
+    val oldAssetPrice: String,
+    val currentAssetPrice: String,
+    val resultPrice: String,
+    val resultVariation: String,
+    var resultType: ResultType) {
+
+    enum class ResultType {
+        POSITIVE,
+        NEGATIVE,
+        SAME
+    }
+
+    constructor(oldAssetDate: String, oldAsset: Asset, currentAsset: Asset) : this(
+        "Preco em $oldAssetDate",
+        "R$ ${oldAsset.price}",
+        "R$ ${currentAsset.price}",
+        "R$ ${currentAsset.price - oldAsset.price}",
+        "${(currentAsset.price - oldAsset.price) / oldAsset.price * 100}%",
+        ResultType.SAME
+    ) {
+        setupResultType(oldAsset, currentAsset)
+    }
+
+    fun setupResultType(oldAsset: Asset, currentAsset: Asset) {
+        val difference = currentAsset.price - oldAsset.price
+
+        resultType = if (difference == 0.0) {
+            ResultType.SAME
+        } else if (difference > 0.0) {
+            ResultType.POSITIVE
+        } else {
+            ResultType.NEGATIVE
         }
-    }
-
-    fun currentPrice(amount: String, value: String, context: Context) {
-        val moneySymbol = context.getString(R.string.simulator_money_symbol)
-        if(amount > 0.0.toString()) {
-            val multiply = amount.toDouble() * value.toDouble()
-            _currentPrice.value = "$moneySymbol $multiply"
-        }
-    }
-
-    fun resultPrice(context: Context) {
-        val moneySymbol = context.getString(R.string.simulator_money_symbol)
-        val priceInValue = _priceIn.value?.substringAfter(moneySymbol)?.trim()?.toDouble() ?: 0.0
-        val currentPriceValue = _currentPrice.value?.substringAfter(moneySymbol)?.trim()?.toDouble() ?: 0.0
-        val result = priceInValue - currentPriceValue
-        _resultPrice.value = "$moneySymbol $result"
-    }
-
-    fun resultColorAndTittle(context: Context) {
-        val resultTittle = context.getString(R.string.simulator_result_price)
-        val resultLoses = context.getString(R.string.simulator_would_lose)
-        val resultProfit = context.getString(R.string.simulator_would_invoice)
-//        if(_resultPrice.value!!.toDouble() > 0.0) {
-//            _resultColor.value = R.color.green_100
-//            _resultTittle.value = "$resultTittle $resultProfit"
-//        } else if(_resultPrice.value!!.toDouble().equals(0.0)){
-//            _resultColor.value = R.color.tertiary_100
-//            _resultTittle.value = "$resultTittle $resultProfit"
-//        } else {
-//            _resultColor.value = R.color.secondary_100
-//            _resultTittle.value = "$resultTittle $resultLoses"
-//        }
     }
 }

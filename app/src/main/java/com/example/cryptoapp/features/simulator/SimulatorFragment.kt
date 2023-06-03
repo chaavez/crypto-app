@@ -22,10 +22,14 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
 import com.example.cryptoapp.common.fragments.error.ErrorFragment
 import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
+import com.example.cryptoapp.common.fragments.highlights.HighlightsRepository
+import com.example.cryptoapp.common.fragments.highlights.HighlightsViewModel
+import com.example.cryptoapp.common.fragments.highlights.HighlightsViewModelFactory
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.common.models.FixedAssets
+import com.example.cryptoapp.databinding.FragmentHighlightsBinding
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -33,7 +37,8 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener
 class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
     enum class State {
         STAND_BY,
-        TO_SAVE
+        TO_SAVE,
+        LOADING
     }
 
     private lateinit var _binding: FragmentSimulatorBinding
@@ -45,7 +50,9 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSimulatorBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(SimulatorViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), SimulatorViewModelFactory(
+            SimulatorRepository()
+        ))[SimulatorViewModel::class.java]
         return binding.root
     }
 
@@ -104,8 +111,8 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
             binding.dateOutlinedTextField.error = error
         }
 
-        viewModel.datePriceInTittle.observe(viewLifecycleOwner) { date ->
-            setDatePriceInTitle(date)
+        viewModel.assetPricesFormatter.observe(viewLifecycleOwner) { formatter ->
+            fillAssetPrices(formatter)
         }
     }
 
@@ -116,11 +123,17 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                     setupAssetPrices(View.INVISIBLE)
                     binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_300))
                     binding.saveInWalletButton.isEnabled = false
+                    binding.simulatorProgressBar.visibility = View.INVISIBLE
                 }
                 State.TO_SAVE -> {
                     setupAssetPrices(View.VISIBLE)
                     binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary_200))
                     binding.saveInWalletButton.isEnabled = true
+                    binding.simulatorProgressBar.visibility = View.INVISIBLE
+                }
+                State.LOADING -> {
+                    setupAssetPrices(View.INVISIBLE)
+                    binding.simulatorProgressBar.visibility = View.VISIBLE
                 }
             }
         }
@@ -170,12 +183,26 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
             })
     }
 
-    private fun priceInDate() {
-        viewModel.priceInDate(binding.dateTextInputEditText.text.toString(), requireContext())
-    }
+    private fun fillAssetPrices(formatter: AssetPricesFormatter) {
+        binding.priceInTittleTextView.text = formatter.oldAssetDate
+        binding.priceInTextView.text = formatter.oldAssetPrice
+        binding.currentPriceTextView.text = formatter.currentAssetPrice
+        binding.resultPriceTextView.text = formatter.resultPrice
 
-    private fun setDatePriceInTitle(date: String) {
-        binding.priceInTittleTextView.text = date
+        when (formatter.resultType) {
+            AssetPricesFormatter.ResultType.POSITIVE -> {
+                binding.resultPriceTittleTextView.text = "Você Ganharia"
+                binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_100))
+            }
+            AssetPricesFormatter.ResultType.NEGATIVE -> {
+                binding.resultPriceTittleTextView.text = "Você Perderia"
+                binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_100))
+            }
+            AssetPricesFormatter.ResultType.SAME -> {
+                binding.resultPriceTittleTextView.text = "Você Ganharia"
+                binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_100))
+            }
+        }
     }
 
     override fun didAssetClicked(asset: Asset) {

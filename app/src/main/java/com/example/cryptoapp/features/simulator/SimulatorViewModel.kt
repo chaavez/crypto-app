@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
-import com.example.cryptoapp.common.fragments.highlights.HighlightsRepository
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.common.models.FixedAssets
 import java.text.SimpleDateFormat
@@ -52,12 +50,12 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     }
 
     private fun validateAmount(): Boolean {
-        val regex = """^([1-9][0-999999999999]{0,1})${'$'}""".toRegex()
+        val regex = """^([1-9][0-999999999999]*)${'$'}""".toRegex()
         return regex.matches(currentAmount)
     }
 
     private fun validateDate(): Boolean {
-        val regex = """^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(\d{4})$""".toRegex()
+        val regex = """^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(20[0-9]{2}|20[0-9]{2})$""".toRegex()
         return regex.matches(currentDate)
     }
 
@@ -75,7 +73,7 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         }
     }
 
-    fun convertDate(dateString: String): String {
+    private fun convertDate(dateString: String): String {
         val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -99,25 +97,23 @@ class AssetPricesFormatter(
     }
 
     constructor(oldAssetDate: String, oldAsset: Asset, currentAsset: Asset) : this(
-        "Preco em $oldAssetDate",
-        "R$ ${oldAsset.price}",
-        "R$ ${currentAsset.price}",
-        "R$ ${currentAsset.price - oldAsset.price}",
-        "${(currentAsset.price - oldAsset.price) / oldAsset.price * 100}%",
+        "Preço em $oldAssetDate",
+        "R$ ${String.format("%,.2f", oldAsset.price)}",
+        "R$ ${String.format("%,.2f", currentAsset.price)}",
+        "R$ ${String.format("%,.2f", currentAsset.price - oldAsset.price)}",
+        "${String.format("%.0f",(currentAsset.price - oldAsset.price) / oldAsset.price * 100)}%",
         ResultType.SAME
     ) {
         setupResultType(oldAsset, currentAsset)
     }
 
-    fun setupResultType(oldAsset: Asset, currentAsset: Asset) {
+    private fun setupResultType(oldAsset: Asset, currentAsset: Asset) {
         val difference = currentAsset.price - oldAsset.price
 
-        resultType = if (difference == 0.0) {
-            ResultType.SAME
-        } else if (difference > 0.0) {
-            ResultType.POSITIVE
-        } else {
-            ResultType.NEGATIVE
+        resultType = when {
+            difference == 0.0 -> ResultType.SAME
+            difference > 0.0 -> ResultType.POSITIVE
+            else -> ResultType.NEGATIVE
         }
     }
 }

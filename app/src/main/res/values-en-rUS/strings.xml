@@ -36,4 +36,6 @@
     <string name="error_content">Something unexpected happened, please try again.</string>
     <string name="invalid_date">Please enter a valid date</string>
     <string name="invalid_amount">Please enter a valid amount</string>
+    <string name="error_message_asset">It seems that on that date the coin did not exist.</string>
+    <string name="error_message_asset2">Please try other date</string>
 </resources>

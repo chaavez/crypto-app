@@ -1,15 +1,16 @@
 package com.example.cryptoapp.features.simulator
 
+import android.content.Context
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.services.network.apis.assets.AssetResponse
 import com.example.cryptoapp.services.network.apis.assets.AssetsRequest
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
 
 class SimulatorRepository {
-    fun fetchAsset(symbol: String, date: String, callback: (Asset) -> Unit) {
+    fun fetchAsset(context: Context, symbol: String, date: String, callback: (Asset) -> Unit) {
         val assetsRequest = AssetsRequest(RetrofitProvider())
 
-        assetsRequest.getAsset(symbol, date) { assetResponse, apiError ->
+        assetsRequest.getAsset(context, symbol, date) { assetResponse, apiError ->
             assetResponse?.let {
                 callback(converter(it))
             }

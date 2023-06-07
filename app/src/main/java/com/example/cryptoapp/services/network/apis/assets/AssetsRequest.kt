@@ -1,5 +1,13 @@
 package com.example.cryptoapp.services.network.apis.assets
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.example.cryptoapp.R
+import com.example.cryptoapp.common.fragments.error.ErrorAssetFragment
+import com.example.cryptoapp.common.fragments.error.ErrorFragment
+import com.example.cryptoapp.features.wallet.WalletFragment
 import com.example.cryptoapp.services.network.httpProvider.APIUserErrors
 import com.example.cryptoapp.services.network.httpProvider.ApiError
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
@@ -41,7 +49,7 @@ class AssetsRequest(private val serviceProvider: RetrofitProvider) {
         })
     }
 
-    fun getAsset(symbol: String, date: String, onResult: (AssetResponse?, ApiError?) -> Unit) {
+    fun getAsset(context: Context, symbol: String, date: String, onResult: (AssetResponse?, ApiError?) -> Unit) {
         val request = serviceProvider.retrofit().create(AssetsApi::class.java)
 
         request.asset(symbol, date).enqueue(object : Callback<ResponseBody> {
@@ -51,6 +59,11 @@ class AssetsRequest(private val serviceProvider: RetrofitProvider) {
                     val asset: AssetResponse = Gson().fromJson(json, object : TypeToken<AssetResponse>() {}.type)
                     onResult(asset, null)
                 } else {
+                    val errorFragment = ErrorAssetFragment()
+                    val fragmentManager: FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                    fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_simulator_state, errorFragment)
+                        .commit()
                     onResult(null, ApiError(APIUserErrors.UNEXPECTED, "Erro!!!!!!!"))
                 }
             }

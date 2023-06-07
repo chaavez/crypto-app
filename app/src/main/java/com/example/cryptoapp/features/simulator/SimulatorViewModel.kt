@@ -40,13 +40,13 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     fun updateAmount(amount: String, context: Context) {
         currentAmount = amount
         _onAmountError.value = if (!validateAmount() && amount.isNotEmpty()) context.getString(R.string.invalid_amount) else null
-        checkFields()
+        checkFields(context)
     }
 
     fun updateDate(date: String, context: Context) {
         currentDate = date
         _onDateError.value = if (!validateDate() && date.length == 10) context.getString(R.string.invalid_date) else null
-        checkFields()
+        checkFields(context)
     }
 
     private fun validateAmount(): Boolean {
@@ -59,11 +59,11 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         return regex.matches(currentDate)
     }
 
-    private fun checkFields() {
+    private fun checkFields(context: Context) {
         if (validateAmount() && validateDate()) {
             viewState.value = SimulatorFragment.State.LOADING
             _currentAsset.value?.let { currentAsset ->
-                repository.fetchAsset(currentAsset.symbol, convertDate(currentDate)) { oldAsset ->
+                repository.fetchAsset(context, currentAsset.symbol, convertDate(currentDate)) { oldAsset ->
                     assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset)
                     viewState.value = SimulatorFragment.State.TO_SAVE
                 }

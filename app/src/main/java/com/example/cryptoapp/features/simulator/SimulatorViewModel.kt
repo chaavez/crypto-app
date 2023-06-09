@@ -14,7 +14,6 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     private var currentAmount: String = ""
     private var currentDate: String = ""
 
-
     val viewState = MutableLiveData<SimulatorFragment.State>()
 
     private val _currentAsset = MutableLiveData<Asset>()
@@ -40,13 +39,13 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     fun updateAmount(amount: String, context: Context) {
         currentAmount = amount
         _onAmountError.value = if (!validateAmount() && amount.isNotEmpty()) context.getString(R.string.invalid_amount) else null
-        checkFields(context)
+        checkFields()
     }
 
     fun updateDate(date: String, context: Context) {
         currentDate = date
         _onDateError.value = if (!validateDate() && date.length == 10) context.getString(R.string.invalid_date) else null
-        checkFields(context)
+        checkFields()
     }
 
     private fun validateAmount(): Boolean {
@@ -59,14 +58,16 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         return regex.matches(currentDate)
     }
 
-    private fun checkFields(context: Context) {
+    private fun checkFields() {
         if (validateAmount() && validateDate()) {
             viewState.value = SimulatorFragment.State.LOADING
             _currentAsset.value?.let { currentAsset ->
-                repository.fetchAsset(context, currentAsset.symbol, convertDate(currentDate)) { oldAsset ->
+                repository.fetchAsset(currentAsset.symbol, convertDate(currentDate), { oldAsset ->
                     assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset)
                     viewState.value = SimulatorFragment.State.TO_SAVE
-                }
+                }, {
+                    viewState.value = SimulatorFragment.State.ERROR
+                })
             }
         } else {
             viewState.value = SimulatorFragment.State.STAND_BY

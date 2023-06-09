@@ -1,15 +1,6 @@
 package com.example.cryptoapp.services.network.apis.assets
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.error.ErrorAssetFragment
-import com.example.cryptoapp.common.fragments.error.ErrorFragment
-import com.example.cryptoapp.features.wallet.WalletFragment
-import com.example.cryptoapp.services.network.httpProvider.APIUserErrors
-import com.example.cryptoapp.services.network.httpProvider.ApiError
+import com.example.cryptoapp.services.network.httpProvider.APIError
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -29,7 +20,7 @@ interface AssetsApi {
 }
 
 class AssetsRequest(private val serviceProvider: RetrofitProvider) {
-    fun getAssets(onResult: (List<AssetResponse>?, ApiError?) -> Unit) {
+    fun getAssets(onResult: (List<AssetResponse>?, APIError?) -> Unit) {
         val request = serviceProvider.retrofit().create(AssetsApi::class.java)
 
         request.assets().enqueue(object : Callback<ResponseBody> {
@@ -39,17 +30,17 @@ class AssetsRequest(private val serviceProvider: RetrofitProvider) {
                     val assets: List<AssetResponse> = Gson().fromJson(json, object : TypeToken<List<AssetResponse>>() {}.type)
                     onResult(assets, null)
                 } else {
-                    onResult(null, ApiError(APIUserErrors.UNEXPECTED, "Erro!!!!!!!"))
+                    onResult(null, APIError.GENERIC)
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, throwable: Throwable) {
-                onResult(null, throwable.message?.let { ApiError(APIUserErrors.GENERIC, it) })
+                onResult(null, throwable.message?.let { APIError.GENERIC })
             }
         })
     }
 
-    fun getAsset(context: Context, symbol: String, date: String, onResult: (AssetResponse?, ApiError?) -> Unit) {
+    fun getAsset(symbol: String, date: String, onResult: (AssetResponse?, APIError?) -> Unit) {
         val request = serviceProvider.retrofit().create(AssetsApi::class.java)
 
         request.asset(symbol, date).enqueue(object : Callback<ResponseBody> {
@@ -59,17 +50,12 @@ class AssetsRequest(private val serviceProvider: RetrofitProvider) {
                     val asset: AssetResponse = Gson().fromJson(json, object : TypeToken<AssetResponse>() {}.type)
                     onResult(asset, null)
                 } else {
-                    val errorFragment = ErrorAssetFragment()
-                    val fragmentManager: FragmentManager = (context as AppCompatActivity).supportFragmentManager
-                    fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_simulator_state, errorFragment)
-                        .commit()
-                    onResult(null, ApiError(APIUserErrors.UNEXPECTED, "Erro!!!!!!!"))
+                    onResult(null, APIError.GENERIC)
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, throwable: Throwable) {
-                onResult(null, throwable.message?.let { ApiError(APIUserErrors.GENERIC, it) })
+                onResult(null, throwable.message?.let { APIError.GENERIC })
             }
         })
     }

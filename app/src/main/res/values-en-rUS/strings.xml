@@ -22,8 +22,8 @@
     <string name="simulator_result_price">You </string>
     <string name="simulator_save_in_wallet">Save in wallet</string>
     <string name="simulator_money_symbol">$</string>
-    <string name="simulator_would_lose">would lose</string>
-    <string name="simulator_would_invoice">would profit</string>
+    <string name="simulator_would_lose">You would lose</string>
+    <string name="simulator_would_invoice">You would profit</string>
 
     <!--Buscar moeda-->
     <string name="search_asset_tittle">Search currency</string>

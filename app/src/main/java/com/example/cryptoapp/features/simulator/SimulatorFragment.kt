@@ -31,7 +31,8 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
     enum class State {
         STAND_BY,
         TO_SAVE,
-        LOADING
+        LOADING,
+        ERROR
     }
 
     private lateinit var _binding: FragmentSimulatorBinding
@@ -130,6 +131,12 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                     setupAssetPrices(View.INVISIBLE)
                     binding.fragmentSimulatorState.visibility = View.VISIBLE
                 }
+                State.ERROR -> {
+                    val invalidDateError = InvalidDateErrorFragment()
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_simulator_state, invalidDateError)
+                    setupAssetPrices(View.INVISIBLE)
+                    binding.fragmentSimulatorState.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -189,21 +196,20 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
 
         when (formatter.resultType) {
             AssetPricesFormatter.ResultType.POSITIVE -> {
-                binding.resultPriceTittleTextView.text = "Você ganharia"
+                binding.resultPriceTittleTextView.text = getString(R.string.simulator_would_invoice)
                 binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_100))
                 binding.resultVariationTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_100))
             }
             AssetPricesFormatter.ResultType.NEGATIVE -> {
-                binding.resultPriceTittleTextView.text = "Você perderia"
+                binding.resultPriceTittleTextView.text = getString(R.string.simulator_would_lose)
                 binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_100))
                 binding.resultVariationTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_100))
 
             }
             AssetPricesFormatter.ResultType.SAME -> {
-                binding.resultPriceTittleTextView.text = "Você ganharia"
+                binding.resultPriceTittleTextView.text = getString(R.string.simulator_would_invoice)
                 binding.resultPriceTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_100))
                 binding.resultVariationTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_100))
-
             }
         }
     }

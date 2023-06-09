@@ -1,4 +1,4 @@
-package com.example.cryptoapp.common.fragments.error
+package com.example.cryptoapp.features.simulator
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.cryptoapp.databinding.FragmentErrorAssetBinding
 
-class ErrorAssetFragment : Fragment() {
+class InvalidDateErrorFragment : Fragment() {
     private lateinit var _binding: FragmentErrorAssetBinding
     private val binding get() = _binding
 

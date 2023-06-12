@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
-import com.example.cryptoapp.common.models.FixedAssets
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,8 +27,14 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     val assetPricesFormatter =  MutableLiveData<AssetPricesFormatter>()
 
     fun loadFirstAsset() {
-        _currentAsset.value = FixedAssets.BTC()
-        viewState.value = SimulatorFragment.State.STAND_BY
+        val currentDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = dateFormat.format(currentDate)
+        repository.fetchAsset("BTC", formattedDate, { asset ->
+            _currentAsset.value = asset
+        }) {
+            viewState.value = SimulatorFragment.State.ERROR
+        }
     }
 
     fun updateAsset(asset: Asset) {

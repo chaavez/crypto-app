@@ -14,7 +14,28 @@
 
     <!--Simulator-->
     <string name="simulator_title">Simulador</string>
+    <string name="simulator_amount">Quantidade</string>
+    <string name="simulator_date">Data</string>
+    <string name="simulator_price_in">Preço em </string>
+    <string name="simulator_current_price">Preço atual </string>
+    <string name="simulator_result_price">Você </string>
+    <string name="simulator_save_in_wallet">Salvar na carteira</string>
+    <string name="simulator_money_symbol">R$ </string>
+    <string name="simulator_would_lose">Você perderia</string>
+    <string name="simulator_would_invoice">Você ganharia</string>
+
+    <!--Buscar moeda-->
+    <string name="search_asset_tittle">Buscar moeda</string>
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
+
+    <!--Error-->
+    <string name="error_tittle">Erro!</string>
+    <string name="error_content">Algo inesperado aconteceu, por favor tente novamente</string>
+    <string name="invalid_date">Digite uma data válida</string>
+    <string name="invalid_amount">Digite uma quantidade valida</string>
+    <string name="error_message_asset">Parece que nessa data a moeda não existia</string>
+    <string name="error_message_asset2">Por favor tente outra data</string>
+
 </resources>

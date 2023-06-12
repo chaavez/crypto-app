@@ -1,4 +1,4 @@
-package com.example.cryptoapp.models
+package com.example.cryptoapp.common.fragments.highlights
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -26,9 +26,7 @@ class HighlightsAdapter(private var assets : List<Asset> = ArrayList()) : Recycl
         return AssetViewHolderHighlights(binding)
     }
 
-    override fun getItemCount(): Int {
-        return assets.size
-    }
+    override fun getItemCount() = assets.size
 
     fun setAssets(asset: List<Asset>) {
         this.assets = asset

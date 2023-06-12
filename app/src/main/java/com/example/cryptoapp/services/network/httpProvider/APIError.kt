@@ -1,3 +1,6 @@
 package com.example.cryptoapp.services.network.httpProvider
 
-class ApiError(val userError: String, val message: String) {}
+enum class APIError {
+    GENERIC,
+    INTERNAL
+}

@@ -18,13 +18,12 @@ class WalletFragment : Fragment() {
     ): View? {
         _binding = FragmentWalletBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         setupLayout()
-
         return root
     }
 
     private fun setupLayout() {
-        binding.toolbar.titleTextView.text = getString(R.string.wallet_title)
+        binding.walletToolbar.toolbarTextView.text = getText(R.string.wallet_title)
+        binding.walletToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
     }
 }

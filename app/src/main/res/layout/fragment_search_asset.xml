@@ -4,45 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".common.fragments.mostValued.MostValuedFragment">
-
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@color/primary_100"
+    tools:context=".features.searchAsset.SearchAssetFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/most_valued_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/most_valued"
-            android:textColor="@color/tertiary_100"
-            android:textSize="16sp"
+        <include
+            android:id="@+id/search_asset_toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/asset_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:searchIcon="@drawable/ic_search"
+            app:searchHintIcon="@drawable/ic_search"
+            app:closeIcon="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_asset_toolbar" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/most_valued_recycler_view"
+            android:id="@+id/search_asset_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/most_valued_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/asset_search_view" />
 
         <FrameLayout
-            android:id="@+id/fragment_most_valued_state"
+            android:id="@+id/fragment_search_asset_state"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/most_valued_recycler_view" />
+            app:layout_constraintTop_toTopOf="@+id/search_asset_recycler_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -14,8 +14,28 @@
     <string name="highlights">Highlights</string>
 
     <!--Simulator-->
-    <string name="simulator_title">Simulador</string>
+    <string name="simulator_title">Simulator</string>
+    <string name="simulator_amount">Amount</string>
+    <string name="simulator_date">Date</string>
+    <string name="simulator_price_in">Price in </string>
+    <string name="simulator_current_price">Current price </string>
+    <string name="simulator_result_price">You </string>
+    <string name="simulator_save_in_wallet">Save in wallet</string>
+    <string name="simulator_money_symbol">$</string>
+    <string name="simulator_would_lose">You would lose</string>
+    <string name="simulator_would_invoice">You would profit</string>
+
+    <!--Buscar moeda-->
+    <string name="search_asset_tittle">Search currency</string>
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
+
+    <!--Error-->
+    <string name="error_tittle">Error!</string>
+    <string name="error_content">Something unexpected happened, please try again.</string>
+    <string name="invalid_date">Please enter a valid date</string>
+    <string name="invalid_amount">Please enter a valid amount</string>
+    <string name="error_message_asset">It seems that on that date the coin did not exist.</string>
+    <string name="error_message_asset2">Please try other date</string>
 </resources>

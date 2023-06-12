@@ -2,11 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.Cryptoapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_100</item>
+        <item name="colorPrimary">@color/secondary_100</item>
         <item name="colorPrimaryVariant">@color/primary_100</item>
         <item name="colorOnPrimary">@color/primary_100</item>
+        <item name="android:textColorPrimary">@color/tertiary_100</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/primary_100</item>
+        <item name="colorSecondary">@color/tertiary_100</item>
         <item name="colorSecondaryVariant">@color/primary_100</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->

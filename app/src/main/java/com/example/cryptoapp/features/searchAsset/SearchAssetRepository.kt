@@ -1,11 +1,11 @@
-package com.example.cryptoapp.common.fragments.highlights
+package com.example.cryptoapp.features.searchAsset
 
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.services.network.apis.assets.AssetResponse
 import com.example.cryptoapp.services.network.apis.assets.AssetsRequest
 import com.example.cryptoapp.services.network.httpProvider.RetrofitProvider
 
-class HighlightsRepository {
+class SearchAssetRepository {
     fun fetchAssets(callback: (MutableList<Asset>) -> Unit) {
         val assetsRequest = AssetsRequest(RetrofitProvider())
 

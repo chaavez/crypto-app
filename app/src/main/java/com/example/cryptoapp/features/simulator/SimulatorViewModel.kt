@@ -12,6 +12,7 @@ import java.util.*
 class SimulatorViewModel(private val repository: SimulatorRepository) : ViewModel() {
     private var currentAmount: String = ""
     private var currentDate: String = ""
+    private val defaultAssetSymbol: String = "BTC"
 
     val viewState = MutableLiveData<SimulatorFragment.State>()
 
@@ -30,7 +31,7 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         val currentDate = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val formattedDate = dateFormat.format(currentDate)
-        repository.fetchAsset("BTC", formattedDate, { asset ->
+        repository.fetchAsset(defaultAssetSymbol, formattedDate, { asset ->
             _currentAsset.value = asset
         }) {
             viewState.value = SimulatorFragment.State.ERROR
@@ -105,7 +106,7 @@ class AssetPricesFormatter(
     constructor(oldAssetDate: String, oldAsset: Asset, currentAsset: Asset, amount: String) : this(
         "Preço em $oldAssetDate",
         "R$ ${String.format("%,.2f", (oldAsset.price * amount.toDouble()))}",
-        "R$ ${String.format("%,.2f", currentAsset.price)}",
+        "R$ ${String.format("%,.2f", (currentAsset.price * amount.toDouble()))}",
         "R$ ${String.format("%,.2f", (currentAsset.price * amount.toDouble()) - (oldAsset.price * amount.toDouble()))}",
         "${String.format("%.0f",(currentAsset.price - oldAsset.price) / oldAsset.price * 100)}%",
         ResultType.SAME

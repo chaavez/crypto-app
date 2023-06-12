@@ -124,6 +124,10 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                     binding.saveInWalletButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary_200))
                     binding.saveInWalletButton.isEnabled = true
                     binding.fragmentSimulatorState.visibility = View.INVISIBLE
+                    binding.saveInWalletButton.setOnClickListener {
+
+                    }
+
                 }
                 State.LOADING -> {
                     val loadingFragment = LoadingFragment()

@@ -9,25 +9,25 @@
     android:background="@color/primary_100"
     tools:context=".features.simulator.SimulatorFragment">
 
+    <include
+        android:id="@+id/simulator_toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/simulator_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <include
-                android:id="@+id/simulator_toolbar"
-                layout="@layout/toolbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/asset_button"
@@ -36,17 +36,17 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/tertiary_100"
-                android:textAllCaps="false"
-                android:textAlignment="textStart"
-                android:drawableEnd="@drawable/ic_arrow"
                 android:backgroundTint="@color/primary_200"
-                app:strokeColor="@color/tertiary_100"
-                app:strokeWidth="1dp"
+                android:drawableEnd="@drawable/ic_arrow"
+                android:fontFamily="@font/roboto_regular"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/tertiary_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/simulator_toolbar" >
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/tertiary_100"
+                app:strokeWidth="1dp">
 
             </com.google.android.material.button.MaterialButton>
 
@@ -93,8 +93,8 @@
                     android:id="@+id/date_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/tertiary_100"
                     android:padding="13dp"
+                    android:textColor="@color/tertiary_100"
                     android:textSize="13sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,10 +117,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:text="@string/simulator_money_symbol"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="24sp"
+                android:text="@string/simulator_money_symbol"
                 android:textColor="@color/tertiary_100"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/price_in_tittle_text_view" />
 
@@ -130,10 +130,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/simulator_current_price"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="16sp"
+                android:text="@string/simulator_current_price"
                 android:textColor="@color/tertiary_100"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/price_in_text_view" />
 
@@ -143,10 +143,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:text="@string/simulator_money_symbol"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="24sp"
+                android:text="@string/simulator_money_symbol"
                 android:textColor="@color/tertiary_100"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/current_price_tittle_text_view" />
 
@@ -156,10 +156,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/simulator_result_price"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="16sp"
+                android:text="@string/simulator_result_price"
                 android:textColor="@color/tertiary_100"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/current_price_text_view" />
 
@@ -169,10 +169,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:text="@string/simulator_money_symbol"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="24sp"
+                android:text="@string/simulator_money_symbol"
                 android:textColor="@color/tertiary_100"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/result_price_tittle_text_view" />
 

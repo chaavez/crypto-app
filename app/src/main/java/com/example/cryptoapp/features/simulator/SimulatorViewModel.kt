@@ -54,7 +54,7 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
     }
 
     private fun validateAmount(): Boolean {
-        val regex = """^([1-9][0-999999999999]*)${'$'}""".toRegex()
+        val regex = """^(?!0$)(0|[1-9][0-999999999999]*)(\.[0-9]+)?${'$'}""".toRegex()
         return regex.matches(currentAmount)
     }
 
@@ -68,7 +68,7 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
             viewState.value = SimulatorFragment.State.LOADING
             _currentAsset.value?.let { currentAsset ->
                 repository.fetchAsset(currentAsset.symbol, convertDate(currentDate), { oldAsset ->
-                    assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset)
+                    assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset, currentAmount)
                     viewState.value = SimulatorFragment.State.TO_SAVE
                 }, {
                     viewState.value = SimulatorFragment.State.ERROR
@@ -102,11 +102,11 @@ class AssetPricesFormatter(
         SAME
     }
 
-    constructor(oldAssetDate: String, oldAsset: Asset, currentAsset: Asset) : this(
+    constructor(oldAssetDate: String, oldAsset: Asset, currentAsset: Asset, amount: String) : this(
         "Preço em $oldAssetDate",
-        "R$ ${String.format("%,.2f", oldAsset.price)}",
+        "R$ ${String.format("%,.2f", (oldAsset.price * amount.toDouble()))}",
         "R$ ${String.format("%,.2f", currentAsset.price)}",
-        "R$ ${String.format("%,.2f", currentAsset.price - oldAsset.price)}",
+        "R$ ${String.format("%,.2f", (currentAsset.price * amount.toDouble()) - (oldAsset.price * amount.toDouble()))}",
         "${String.format("%.0f",(currentAsset.price - oldAsset.price) / oldAsset.price * 100)}%",
         ResultType.SAME
     ) {

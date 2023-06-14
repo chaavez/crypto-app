@@ -29,6 +29,10 @@
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
+    <string name="my_assets">Minhas moedas</string>
+    <string name="total_invested">Total investido</string>
+    <string name="total_today">Total hoje</string>
+    <string name="total_profit">Lucro total</string>
 
     <!--Error-->
     <string name="error_tittle">Erro!</string>

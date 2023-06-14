@@ -9,7 +9,6 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.database.entity.AssetEntity
 import com.example.cryptoapp.database.repository.AssetEntityRepository
-import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -73,7 +72,6 @@ class SimulatorViewModel(
                 currentDate
             )
         )
-        Log.d("SALVO", "SALVO COM SUCESSO")
     }
 
     suspend fun getAllAssets() {
@@ -85,12 +83,12 @@ class SimulatorViewModel(
     }
 
     private fun validateAmount(): Boolean {
-        val regex = """^(?!0$)(0|[1-9][0-999999999999]*)(\.[0-9]+)?${'$'}""".toRegex()
+        val regex = """^(?!0$)(0|[1-9][\d9]*)(\.\d+)?${'$'}""".toRegex()
         return regex.matches(currentAmount)
     }
 
     private fun validateDate(): Boolean {
-        val regex = """^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(20[0-9]{2}|20[0-9]{2})$""".toRegex()
+        val regex = """^([0-2]\d|3[0-1])/(0[1-9]|1[0-2])/20(2[0-2]|23)$""".toRegex()
         return regex.matches(currentDate)
     }
 

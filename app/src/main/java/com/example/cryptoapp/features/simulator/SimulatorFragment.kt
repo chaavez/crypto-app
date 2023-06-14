@@ -14,18 +14,24 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.cryptoapp.CryptoApp
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.database.AppDataBase
+import com.example.cryptoapp.database.dao.AssetDao
+import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import kotlinx.coroutines.launch
 
 class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
     enum class State {
@@ -44,8 +50,12 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSimulatorBinding.inflate(inflater, container, false)
+
+        val assetDao = CryptoApp.getAssetDao()
+
         viewModel = ViewModelProvider(requireActivity(), SimulatorViewModelFactory(
-            SimulatorRepository()
+            SimulatorRepository(),
+            AssetEntityRepository(assetDao)
         ))[SimulatorViewModel::class.java]
         return binding.root
     }
@@ -57,6 +67,9 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         observeViewModel()
         setupState()
         viewModel.loadFirstAsset()
+        lifecycleScope.launch {
+            viewModel.getAllAssets()
+        }
     }
 
     private fun setupLayout() {
@@ -125,9 +138,10 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                     binding.saveInWalletButton.isEnabled = true
                     binding.fragmentSimulatorState.visibility = View.INVISIBLE
                     binding.saveInWalletButton.setOnClickListener {
-
+                        lifecycleScope.launch {
+                            viewModel.insertAssetInWallet()
+                        }
                     }
-
                 }
                 State.LOADING -> {
                     val loadingFragment = LoadingFragment()

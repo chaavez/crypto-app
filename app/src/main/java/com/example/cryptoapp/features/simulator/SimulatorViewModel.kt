@@ -1,15 +1,22 @@
 package com.example.cryptoapp.features.simulator
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.database.entity.AssetEntity
+import com.example.cryptoapp.database.repository.AssetEntityRepository
+import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SimulatorViewModel(private val repository: SimulatorRepository) : ViewModel() {
+class SimulatorViewModel(
+    private val repository: SimulatorRepository,
+    private val assetEntityRepository: AssetEntityRepository
+) : ViewModel() {
     private var currentAmount: String = ""
     private var currentDate: String = ""
     private val defaultAssetSymbol: String = "BTC"
@@ -52,6 +59,29 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         currentDate = date
         _onDateError.value = if (!validateDate() && date.length == 10) context.getString(R.string.invalid_date) else null
         checkFields()
+    }
+
+    suspend fun insertAssetInWallet() {
+        assetEntityRepository.insertAsset(
+            AssetEntity(
+                asset.value?.symbol,
+                asset.value?.name,
+                asset.value?.icon,
+                asset.value?.price,
+                asset.value?.variation,
+                currentAmount,
+                currentDate
+            )
+        )
+        Log.d("SALVO", "SALVO COM SUCESSO")
+    }
+
+    suspend fun getAllAssets() {
+        assetEntityRepository.getAllAssets().collect() { assets ->
+            for(asset in assets) {
+                Log.d("SimulatorFragment", "Symbol: ${asset.symbol}, Name: ${asset.name}, Datas ${asset.date}, QTD ${asset.amount}, ID ${asset.uid}")
+            }
+        }
     }
 
     private fun validateAmount(): Boolean {

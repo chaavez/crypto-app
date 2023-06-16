@@ -50,9 +50,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSimulatorBinding.inflate(inflater, container, false)
-
         val assetDao = CryptoApp.getAssetDao()
-
         viewModel = ViewModelProvider(requireActivity(), SimulatorViewModelFactory(
             SimulatorRepository(),
             AssetEntityRepository(assetDao)
@@ -67,9 +65,6 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         observeViewModel()
         setupState()
         viewModel.loadFirstAsset()
-        lifecycleScope.launch {
-            viewModel.getAllAssets()
-        }
     }
 
     private fun setupLayout() {

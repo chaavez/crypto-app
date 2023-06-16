@@ -1,16 +1,26 @@
 package com.example.cryptoapp.features.wallet
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp.CryptoApp
 import com.example.cryptoapp.R
+import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentWalletBinding
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class WalletFragment : Fragment() {
     private lateinit var _binding: FragmentWalletBinding
+    private lateinit var viewModel: WalletViewModel
     private val binding get() = _binding
     private val walletAdapter = WalletAdapter()
 
@@ -19,9 +29,10 @@ class WalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWalletBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val assetDao = CryptoApp.getAssetDao()
+        viewModel = ViewModelProvider(this, WalletViewModelFactory(AssetEntityRepository(assetDao)))[WalletViewModel::class.java]
         setupLayout()
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +46,12 @@ class WalletFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.myAssetsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.myAssetsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.myAssetsRecyclerView.adapter = walletAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.assets.collect { assets ->
+                walletAdapter.setAssets(assets)
+            }
+        }
     }
 }

@@ -64,7 +64,7 @@ class SimulatorViewModel(
         assetEntityRepository.insertAsset(
             AssetEntity(
                 asset.value?.symbol,
-                asset.value?.name,
+                asset.value?.name ?: "",
                 asset.value?.icon,
                 asset.value?.price,
                 asset.value?.variation,
@@ -72,14 +72,6 @@ class SimulatorViewModel(
                 currentDate
             )
         )
-    }
-
-    suspend fun getAllAssets() {
-        assetEntityRepository.getAllAssets().collect() { assets ->
-            for(asset in assets) {
-                Log.d("SimulatorFragment", "Symbol: ${asset.symbol}, Name: ${asset.name}, Datas ${asset.date}, QTD ${asset.amount}, ID ${asset.uid}")
-            }
-        }
     }
 
     private fun validateAmount(): Boolean {

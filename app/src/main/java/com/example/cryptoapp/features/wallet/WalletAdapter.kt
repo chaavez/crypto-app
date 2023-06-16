@@ -25,6 +25,7 @@ class WalletAdapter(private var assets: List<AssetEntity> = ArrayList()) : Recyc
 
     fun setAssets(asset: List<AssetEntity>) {
         assets = asset
+        notifyDataSetChanged()
     }
 }
 
@@ -40,5 +41,7 @@ class WalletViewHolder(private val binding: AssetViewHolderWalletBinding) : Recy
             .into(binding.iconImageView)
         binding.symbolTextView.text = asset.symbol
         binding.nameTextView.text = asset.name
+        binding.variationTextView.text = asset.variation.toString()
+        binding.currentValueTextView.text = asset.price.toString()
     }
 }

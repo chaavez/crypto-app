@@ -9,8 +9,8 @@ data class AssetEntity(
     @ColumnInfo(name = "symbol") val symbol: String?,
     @PrimaryKey val name: String,
     @ColumnInfo(name = "icon") val icon: String?,
-    @ColumnInfo(name = "price") val price: Double?,
-    @ColumnInfo(name = "variation") val variation: Double?,
-    @ColumnInfo(name = "amount") val amount: String?,
-    @ColumnInfo(name = "date") val date: String?
+    @ColumnInfo(name = "price") val price: String,
+    @ColumnInfo(name = "variation") val variation: String,
+    @ColumnInfo(name = "amount") val amount: String,
+    @ColumnInfo(name = "date") val date: String
 )

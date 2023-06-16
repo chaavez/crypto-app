@@ -66,10 +66,10 @@ class SimulatorViewModel(
                 asset.value?.symbol,
                 asset.value?.name ?: "",
                 asset.value?.icon,
-                asset.value?.price,
-                asset.value?.variation,
+                asset.value?.price.toString(),
+                asset.value?.variation.toString(),
                 currentAmount,
-                currentDate
+                currentDate,
             )
         )
     }

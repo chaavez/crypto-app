@@ -95,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/total_profit_tittle" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/my_assets_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -115,6 +115,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/my_assets_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

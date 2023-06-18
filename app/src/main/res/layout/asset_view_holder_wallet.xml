@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -75,19 +76,20 @@
                 android:id="@+id/invested_value_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="R$ 20.690,56"
                 android:textColor="@color/tertiary_100"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/icon_image_view"
+                app:layout_constraintEnd_toStartOf="@+id/name_text_view"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/symbol_text_view" />
 
             <TextView
                 android:id="@+id/invested_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/invested"
@@ -96,8 +98,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/invested_value_text_view"
-                app:layout_constraintStart_toStartOf="@+id/invested_value_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/invested_value_text_view" />
+                app:layout_constraintStart_toStartOf="@+id/invested_value_text_view" />
 
             <TextView
                 android:id="@+id/current_value_text_view"
@@ -108,7 +109,7 @@
                 android:textColor="@color/tertiary_100"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/profit_value_text_view"
-                app:layout_constraintStart_toEndOf="@+id/invested_value_text_view"
+                app:layout_constraintStart_toStartOf="@+id/name_text_view"
                 app:layout_constraintTop_toTopOf="@+id/invested_value_text_view" />
 
             <TextView
@@ -130,10 +131,10 @@
                 android:id="@+id/profit_value_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R$ 20.690,56"
-                android:textSize="14sp"
-                android:textColor="@color/tertiary_100"
                 android:fontFamily="@font/roboto_regular"
+                android:text="R$ 20.690,56"
+                android:textColor="@color/tertiary_100"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/variation_text_view"
                 app:layout_constraintTop_toTopOf="@+id/current_value_text_view" />
 

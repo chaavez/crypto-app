@@ -10,6 +10,8 @@ data class AssetEntity(
     @PrimaryKey val name: String,
     @ColumnInfo(name = "icon") val icon: String?,
     @ColumnInfo(name = "price") val price: String,
+    @ColumnInfo(name = "total_investment_in_asset") var totalInvestmentAsset: String,
+    @ColumnInfo(name = "total_investment") var totalInvestment: String,
     @ColumnInfo(name = "variation") val variation: String,
     @ColumnInfo(name = "amount") val amount: String,
     @ColumnInfo(name = "date") val date: String

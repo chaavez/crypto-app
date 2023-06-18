@@ -13,8 +13,16 @@ class AssetEntityRepository(private val assetDao: AssetDao) {
         return assetDao.getAll()
     }
 
+    suspend fun getAssetByName(name: String): AssetEntity? {
+        return assetDao.getAssetByName(name)
+    }
+
+    suspend fun updateTotalInvestment() {
+        assetDao.updateTotalInvestment()
+    }
+
     suspend fun updateAsset(assetEntity: AssetEntity) {
-        assetDao.update(assetEntity)
+        assetDao.updateAsset(assetEntity)
     }
 
     suspend fun deleteAsset(assetEntity: AssetEntity) {

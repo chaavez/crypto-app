@@ -1,7 +1,6 @@
 package com.example.cryptoapp.features.simulator
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,17 +60,28 @@ class SimulatorViewModel(
     }
 
     suspend fun insertAssetInWallet() {
-        assetEntityRepository.insertAsset(
-            AssetEntity(
-                asset.value?.symbol,
-                asset.value?.name ?: "",
-                asset.value?.icon,
-                asset.value?.price.toString(),
-                asset.value?.variation.toString(),
-                currentAmount,
-                currentDate,
+        val existingAsset = assetEntityRepository.getAssetByName(asset.value?.name ?: "")
+        if (existingAsset != null) {
+            existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            assetEntityRepository.updateAsset(existingAsset)
+        } else {
+            val totalInvestmentAsset = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
+            val totalInvestment = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
+            assetEntityRepository.insertAsset(
+                AssetEntity(
+                    asset.value?.symbol,
+                    asset.value?.name ?: "",
+                    asset.value?.icon,
+                    asset.value?.price.toString(),
+                    totalInvestmentAsset.toString(),
+                    totalInvestment.toString(),
+                    asset.value?.variation.toString(),
+                    currentAmount,
+                    currentDate,
+                )
             )
-        )
+        }
+        assetEntityRepository.updateTotalInvestment()
     }
 
     private fun validateAmount(): Boolean {

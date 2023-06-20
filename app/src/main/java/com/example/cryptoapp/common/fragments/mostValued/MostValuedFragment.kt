@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
 import com.example.cryptoapp.common.fragments.error.ErrorFragment
 import com.example.cryptoapp.common.fragments.error.ErrorFragmentListener
+import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.databinding.FragmentMostValuedBinding
 import com.example.cryptoapp.main.MainActivity
 

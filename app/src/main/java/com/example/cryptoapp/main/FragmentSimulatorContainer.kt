@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentSimulatorContainerBinding
-import com.example.cryptoapp.features.home.HomeFragment
 import com.example.cryptoapp.features.simulator.SimulatorFragment
 
 class FragmentSimulatorContainer : Fragment() {

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentWalletContainerBinding
-import com.example.cryptoapp.features.simulator.SimulatorFragment
 import com.example.cryptoapp.features.wallet.WalletFragment
 
 class FragmentWalletContainer : Fragment() {

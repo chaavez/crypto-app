@@ -64,6 +64,7 @@ class SimulatorViewModel(
         if (existingAsset != null) {
             existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
             assetEntityRepository.updateAsset(existingAsset)
+            assetEntityRepository.updateTotalInvestment()
         } else {
             val totalInvestmentAsset = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
             val totalInvestment = (asset.value?.price ?: 0.0) * currentAmount.toDouble()

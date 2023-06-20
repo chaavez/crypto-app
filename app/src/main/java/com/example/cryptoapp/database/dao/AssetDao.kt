@@ -11,7 +11,7 @@ interface AssetDao {
     suspend fun insert(assetEntity: AssetEntity)
 
     @Query("SELECT * FROM assets")
-    fun getAll(): Flow<List<AssetEntity>>
+    fun getAllAssets(): Flow<List<AssetEntity>>
 
     @Query("SELECT SUM(price) FROM assets")
     fun getTotalInvestment(): Flow<Double>
@@ -27,7 +27,7 @@ interface AssetDao {
 
     @Transaction
     suspend fun updateTotalInvestment() {
-        val assets = getAll().first()
+        val assets = getAllAssets().first()
         val totalInvestment = assets.sumOf { assetEntity ->
             assetEntity.price.toDouble()
         }

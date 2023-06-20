@@ -21,12 +21,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.cryptoapp.CryptoApp
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
+import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
-import com.example.cryptoapp.database.AppDataBase
-import com.example.cryptoapp.database.dao.AssetDao
 import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
@@ -43,7 +41,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
 
     private lateinit var _binding: FragmentSimulatorBinding
     private lateinit var viewModel: SimulatorViewModel
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -10,7 +10,7 @@ class AssetEntityRepository(private val assetDao: AssetDao) {
     }
 
     fun getAllAssets(): Flow<List<AssetEntity>> {
-        return assetDao.getAll()
+        return assetDao.getAllAssets()
     }
 
     suspend fun getAssetByName(name: String): AssetEntity? {

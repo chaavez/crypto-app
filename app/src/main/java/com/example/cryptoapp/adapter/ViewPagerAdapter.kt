@@ -7,15 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.cryptoapp.features.home.HomeFragment
 import com.example.cryptoapp.features.simulator.SimulatorFragment
 import com.example.cryptoapp.features.wallet.WalletFragment
-import com.example.cryptoapp.main.FragmentHomeContainer
-import com.example.cryptoapp.main.FragmentSimulatorContainer
-import com.example.cryptoapp.main.FragmentWalletContainer
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
     private val fragmentsList: List<Fragment> = listOf(
-        FragmentHomeContainer(),
-        FragmentSimulatorContainer(),
-        FragmentWalletContainer()
+        HomeFragment(),
+        SimulatorFragment(),
+        WalletFragment()
     )
 
     override fun getItemCount() = fragmentsList.size

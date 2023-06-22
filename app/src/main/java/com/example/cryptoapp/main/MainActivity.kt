@@ -2,30 +2,17 @@ package com.example.cryptoapp.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.ViewPagerAdapter
-import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.features.home.HomeFragment
-import com.example.cryptoapp.features.simulator.SimulatorFragment
-import com.example.cryptoapp.features.wallet.WalletFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var adapterViewPager: ViewPagerAdapter
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewPager = binding.mainFragment
-        viewPager.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+        adapterViewPager = ViewPagerAdapter(supportFragmentManager, lifecycle)
+        viewPager.adapter = adapterViewPager
         viewPager.isUserInputEnabled = false
     }
 
@@ -63,21 +51,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun replaceFragment(fromFragment: Int, toFrament: Fragment) {
+    fun replaceFragment(fromFragment: Int, toFragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 
         transaction
-            .replace(fromFragment, toFrament)
+            .replace(fromFragment, toFragment)
             .commit()
     }
 
-    fun addFragment(fromFragment: Int, toFrament: Fragment) {
+    fun addFragment(fromFragment: Int, toFragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
 
         transaction
-            .add(fromFragment, toFrament)
+            .add(fromFragment, toFragment)
             .addToBackStack(null)
             .commit()
     }

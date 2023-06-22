@@ -25,6 +25,7 @@ import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.database.entity.AssetEntity
 import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
@@ -71,7 +72,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
 
         binding.assetButton.setOnClickListener {
             val searchAssetFragment = SearchAssetFragment(this)
-            (activity as? MainActivity)?.addFragment(R.id.simulator_container, searchAssetFragment)
+            (activity as? MainActivity)?.addFragment(R.id.fragment_simulator, searchAssetFragment)
         }
 
         binding.amountTextInputEditText.addTextChangedListener { text ->

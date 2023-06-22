@@ -13,6 +13,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentWalletBinding
+import com.example.cryptoapp.main.MainActivity
 import kotlinx.coroutines.launch
 
 class WalletFragment : Fragment() {
@@ -42,6 +43,12 @@ class WalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadAssets()
     }
 
     private fun setupLayout() {
@@ -53,7 +60,7 @@ class WalletFragment : Fragment() {
         binding.myAssetsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.myAssetsRecyclerView.adapter = walletAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.assets.collect { assets ->
+            viewModel.assets.observe(viewLifecycleOwner) { assets ->
                 walletAdapter.setAssets(assets)
             }
         }
@@ -64,9 +71,7 @@ class WalletFragment : Fragment() {
             when(state) {
                 State.EMPTY -> {
                     val emptyWalletFragment = EmptyWalletFragment()
-                    childFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_wallet_state, emptyWalletFragment)
-                        .commit()
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_wallet_state, emptyWalletFragment)
                     binding.fragmentWalletState.visibility = View.VISIBLE
                     binding.myAssetsRecyclerView.visibility = View.INVISIBLE
                     setupInvestedAssets(View.INVISIBLE)
@@ -78,9 +83,7 @@ class WalletFragment : Fragment() {
                 }
                 State.LOADING -> {
                     val loadingFragment = LoadingFragment()
-                    childFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_wallet_state, loadingFragment)
-                        .commit()
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_wallet_state, loadingFragment)
                     binding.myAssetsRecyclerView.visibility = View.INVISIBLE
                     binding.fragmentWalletState.visibility = View.VISIBLE
                     setupInvestedAssets(View.INVISIBLE)
@@ -99,5 +102,6 @@ class WalletFragment : Fragment() {
         binding.totalToday.visibility = visibility
         binding.totalProfitTittle.visibility = visibility
         binding.totalProfit.visibility = visibility
+        binding.myAssetsTextView.visibility = visibility
     }
 }

@@ -24,6 +24,8 @@ class SimulatorViewModel(
     private val _currentAsset = MutableLiveData<Asset>()
     val asset: LiveData<Asset> = _currentAsset
 
+    private var currentOldAsset: Asset? = null
+
     private val _onAmountError = MutableLiveData<String?>()
     val onAmountError: LiveData<String?> = _onAmountError
 
@@ -62,18 +64,18 @@ class SimulatorViewModel(
     suspend fun insertAssetInWallet() {
         val existingAsset = assetEntityRepository.getAssetByName(asset.value?.name ?: "")
         if (existingAsset != null) {
-            existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((currentOldAsset?.price ?: 0.0) * currentAmount.toDouble())).toString()
             assetEntityRepository.updateAsset(existingAsset)
             assetEntityRepository.updateTotalInvestment()
         } else {
-            val totalInvestmentAsset = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
-            val totalInvestment = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
+            val totalInvestmentAsset = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
+            val totalInvestment = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
             assetEntityRepository.insertAsset(
                 AssetEntity(
                     asset.value?.symbol,
                     asset.value?.name ?: "",
                     asset.value?.icon,
-                    asset.value?.price.toString(),
+                    currentOldAsset?.price.toString(),
                     totalInvestmentAsset.toString(),
                     totalInvestment.toString(),
                     asset.value?.variation.toString(),
@@ -100,6 +102,7 @@ class SimulatorViewModel(
             viewState.value = SimulatorFragment.State.LOADING
             _currentAsset.value?.let { currentAsset ->
                 repository.fetchAsset(currentAsset.symbol, convertDate(currentDate), { oldAsset ->
+                    currentOldAsset = oldAsset
                     assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset, currentAmount)
                     viewState.value = SimulatorFragment.State.TO_SAVE
                 }, {

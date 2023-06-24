@@ -43,6 +43,7 @@ class WalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        observeViewModel()
         setupState()
     }
 
@@ -63,6 +64,12 @@ class WalletFragment : Fragment() {
             viewModel.assets.observe(viewLifecycleOwner) { assets ->
                 walletAdapter.setAssets(assets)
             }
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.assetPricesFormatter.observe(viewLifecycleOwner) { formatter ->
+            fillAssetsPrice(formatter)
         }
     }
 
@@ -103,5 +110,13 @@ class WalletFragment : Fragment() {
         binding.totalProfitTittle.visibility = visibility
         binding.totalProfit.visibility = visibility
         binding.myAssetsTextView.visibility = visibility
+        binding.variationTotalProfit.visibility = visibility
+    }
+
+    private fun fillAssetsPrice(formatter: WalletFormatter) {
+        binding.totalInvested.text = formatter.totalInvested
+        binding.totalToday.text = formatter.totalToday
+        binding.totalProfit.text = formatter.totalProfit
+        binding.variationTotalProfit.text = formatter.variationPercentage
     }
 }

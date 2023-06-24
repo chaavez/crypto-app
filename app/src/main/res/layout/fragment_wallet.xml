@@ -95,6 +95,19 @@
         app:layout_constraintTop_toBottomOf="@+id/total_profit_tittle" />
 
     <TextView
+        android:id="@+id/variation_total_profit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="100%"
+        android:textColor="@color/tertiary_100"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/total_profit"
+        app:layout_constraintStart_toEndOf="@+id/total_profit"
+        app:layout_constraintTop_toTopOf="@+id/total_profit" />
+
+    <TextView
         android:id="@+id/my_assets_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

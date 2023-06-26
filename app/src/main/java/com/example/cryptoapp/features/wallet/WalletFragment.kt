@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.CryptoApp
 import com.example.cryptoapp.R
 import com.example.cryptoapp.database.repository.AssetEntityRepository
+import com.example.cryptoapp.databinding.FragmentErrorBinding
+import com.example.cryptoapp.databinding.FragmentErrorWalletBinding
 import com.example.cryptoapp.databinding.FragmentWalletBinding
 import com.example.cryptoapp.main.MainActivity
 import kotlinx.coroutines.launch
@@ -84,7 +86,10 @@ class WalletFragment : Fragment() {
                     setupInvestedAssets(View.VISIBLE)
                 }
                 State.ERROR -> {
-
+                    val errorFragmentWallet = ErrorWalletFragment()
+                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_wallet_state, errorFragmentWallet)
+                    binding.fragmentWalletState.visibility = View.VISIBLE
+                    binding.myAssetsRecyclerView.visibility = View.INVISIBLE
                 }
             }
         }

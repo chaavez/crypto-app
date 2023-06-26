@@ -25,7 +25,6 @@ import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragment
 import com.example.cryptoapp.features.searchAsset.SearchAssetFragmentListener
 import com.example.cryptoapp.common.models.Asset
-import com.example.cryptoapp.database.entity.AssetEntity
 import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentSimulatorBinding
 import com.example.cryptoapp.main.MainActivity
@@ -63,7 +62,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         maskedDate()
         observeViewModel()
         setupState()
-        viewModel.loadFirstAsset()
+        //viewModel.loadFirstAsset() somente para não gastar os requests diários
     }
 
     private fun setupLayout() {
@@ -133,7 +132,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                     binding.fragmentSimulatorState.visibility = View.INVISIBLE
                     binding.saveInWalletButton.setOnClickListener {
                         lifecycleScope.launch {
-                            viewModel.insertAssetInWallet()
+                            viewModel.insertAssetInWallet(requireContext())
                         }
                     }
                 }
@@ -195,6 +194,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
+
                 }
             })
     }

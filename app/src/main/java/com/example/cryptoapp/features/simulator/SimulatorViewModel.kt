@@ -1,6 +1,7 @@
 package com.example.cryptoapp.features.simulator
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,21 +62,24 @@ class SimulatorViewModel(
         checkFields()
     }
 
-    suspend fun insertAssetInWallet() {
+    suspend fun insertAssetInWallet(context: Context) {
         val existingAsset = assetEntityRepository.getAssetByName(asset.value?.name ?: "")
         if (existingAsset != null) {
             existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((currentOldAsset?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            existingAsset.price = (existingAsset.price.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            existingAsset.amount = (existingAsset.amount.toDouble() + currentAmount.toDouble()).toString()
             assetEntityRepository.updateAsset(existingAsset)
             assetEntityRepository.updateTotalInvestment()
         } else {
             val totalInvestmentAsset = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
             val totalInvestment = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
+            val totalCurrencyPrice = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
             assetEntityRepository.insertAsset(
                 AssetEntity(
                     asset.value?.symbol,
                     asset.value?.name ?: "",
                     asset.value?.icon,
-                    currentOldAsset?.price.toString(),
+                    totalCurrencyPrice.toString(),
                     totalInvestmentAsset.toString(),
                     totalInvestment.toString(),
                     asset.value?.variation.toString(),
@@ -85,6 +89,7 @@ class SimulatorViewModel(
             )
         }
         assetEntityRepository.updateTotalInvestment()
+        Toast.makeText(context, "Ativo salva com sucesso", Toast.LENGTH_SHORT).show()
     }
 
     private fun validateAmount(): Boolean {

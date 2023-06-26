@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.CryptoApp
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.database.repository.AssetEntityRepository
 import com.example.cryptoapp.databinding.FragmentWalletBinding
 import com.example.cryptoapp.main.MainActivity
@@ -20,7 +20,6 @@ class WalletFragment : Fragment() {
     enum class State {
         EMPTY,
         CONTENT,
-        LOADING,
         ERROR
     }
 
@@ -42,7 +41,6 @@ class WalletFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
         observeViewModel()
         setupState()
     }
@@ -57,19 +55,16 @@ class WalletFragment : Fragment() {
         binding.walletToolbar.toolbarImageButton.setImageResource(R.drawable.ic_settings)
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(formattedAsset: WalletFormatter) {
         binding.myAssetsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.myAssetsRecyclerView.adapter = walletAdapter
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.assets.observe(viewLifecycleOwner) { assets ->
-                walletAdapter.setAssets(assets)
-            }
-        }
+        walletAdapter.setAssets(formattedAsset.walletAssets)
     }
 
     private fun observeViewModel() {
         viewModel.assetPricesFormatter.observe(viewLifecycleOwner) { formatter ->
             fillAssetsPrice(formatter)
+            setupRecyclerView(formatter)
         }
     }
 
@@ -77,23 +72,16 @@ class WalletFragment : Fragment() {
         viewModel.viewState.observe(viewLifecycleOwner) { state ->
             when(state) {
                 State.EMPTY -> {
+                    setupInvestedAssets(View.INVISIBLE)
                     val emptyWalletFragment = EmptyWalletFragment()
                     (activity as? MainActivity)?.replaceFragment(R.id.fragment_wallet_state, emptyWalletFragment)
                     binding.fragmentWalletState.visibility = View.VISIBLE
                     binding.myAssetsRecyclerView.visibility = View.INVISIBLE
-                    setupInvestedAssets(View.INVISIBLE)
                 }
                 State.CONTENT -> {
                     binding.fragmentWalletState.visibility = View.INVISIBLE
                     binding.myAssetsRecyclerView.visibility = View.VISIBLE
                     setupInvestedAssets(View.VISIBLE)
-                }
-                State.LOADING -> {
-                    val loadingFragment = LoadingFragment()
-                    (activity as? MainActivity)?.replaceFragment(R.id.fragment_wallet_state, loadingFragment)
-                    binding.myAssetsRecyclerView.visibility = View.INVISIBLE
-                    binding.fragmentWalletState.visibility = View.VISIBLE
-                    setupInvestedAssets(View.INVISIBLE)
                 }
                 State.ERROR -> {
 
@@ -118,5 +106,20 @@ class WalletFragment : Fragment() {
         binding.totalToday.text = formatter.totalToday
         binding.totalProfit.text = formatter.totalProfit
         binding.variationTotalProfit.text = formatter.variationPercentage
+
+       when (formatter.resultType) {
+           WalletFormatter.ResultType.SAME -> {
+               binding.totalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.tertiary_100))
+               binding.variationTotalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_100))
+           }
+           WalletFormatter.ResultType.POSITIVE -> {
+               binding.totalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_100))
+               binding.variationTotalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_100))
+           }
+           WalletFormatter.ResultType.NEGATIVE -> {
+               binding.totalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_100))
+               binding.variationTotalProfit.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_100))
+           }
+       }
     }
 }

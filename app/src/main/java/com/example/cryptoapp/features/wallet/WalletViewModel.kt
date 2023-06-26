@@ -1,11 +1,8 @@
 package com.example.cryptoapp.features.wallet
 
 import androidx.lifecycle.*
-import androidx.room.Transaction
-import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.database.entity.AssetEntity
 import com.example.cryptoapp.database.repository.AssetEntityRepository
-import com.example.cryptoapp.features.simulator.AssetPricesFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -13,8 +10,6 @@ class WalletViewModel(private val repository: AssetEntityRepository) : ViewModel
     val viewState =  MutableLiveData<WalletFragment.State>()
 
     private val _assets: MutableLiveData<List<AssetEntity>> = MutableLiveData()
-    val assets: LiveData<List<AssetEntity>> = _assets
-
     val assetPricesFormatter =  MutableLiveData<WalletFormatter>()
 
     fun loadAssets() {
@@ -35,7 +30,9 @@ class WalletFormatter(
     var totalInvested: String,
     var totalToday: String,
     var totalProfit: String,
-    var variationPercentage: String
+    var variationPercentage: String,
+    var resultType: ResultType,
+    var walletAssets: List<WalletAssetFormatter>
 ) {
     enum class ResultType {
         POSITIVE,
@@ -48,11 +45,15 @@ class WalletFormatter(
         "",
         "",
         "",
-    ){
+        ResultType.SAME,
+        emptyList()
+    ) {
         calculateTotalInvested(assetsEntity)
         calculateTotalToday(assetsEntity)
         calculateTotalProfit(assetsEntity)
         calculateVariation(assetsEntity)
+        setupResultType(assetsEntity)
+        walletAssetsFormatter(assetsEntity)
     }
 
     private fun calculateTotalInvested(assetsEntities: List<AssetEntity>) {
@@ -66,7 +67,7 @@ class WalletFormatter(
         val totalToday = assetsEntities.sumOf {
             it.price.toDouble()
         }
-        this.totalToday =  "R$ ${String.format("%,.2f", totalToday)}"
+        this.totalToday = "R$ ${String.format("%,.2f", totalToday)}"
     }
 
     private fun calculateTotalProfit(assetsEntities: List<AssetEntity>) {
@@ -76,7 +77,13 @@ class WalletFormatter(
         val totalToday = assetsEntities.sumOf {
             it.price.toDouble()
         }
-        this.totalProfit = "R$ ${String.format("%,.2f", (totalPrice - totalToday))}"
+        var profit = totalToday - totalPrice
+
+        if (profit < 0) {
+            this.totalProfit = "R$ ${String.format("%,.2f", profit)}"
+        } else {
+            this.totalProfit = "R$ +${String.format("%,.2f", profit)}"
+        }
     }
 
     private fun calculateVariation(assetsEntities: List<AssetEntity>) {
@@ -84,18 +91,86 @@ class WalletFormatter(
             it.totalInvestmentAsset.toDouble()
         }
         val currencyPrice = assetsEntities.sumOf {
-         it.price.toDouble()
+            it.price.toDouble()
         }
-        this.variationPercentage = "${String.format("%,.0f", (totalInvested / currencyPrice) * 100)}%"
+        var variation = ((totalInvested - currencyPrice) / totalInvested) * 100
+        if (currencyPrice < totalInvested) {
+            variation *= -1
+        }
+        this.variationPercentage = "${String.format("%,.0f", variation)}%"
     }
 
-//    private fun setupResultType(oldAsset: AssetEntity, currentAsset: AssetEntity) {
-//        val difference = currentAsset.price.toDouble() - oldAsset.price.toDouble()
-//
-//        resultType = when {
-//            difference == 0.0 -> ResultType.SAME
-//            difference > 0.0 -> ResultType.POSITIVE
-//            else -> ResultType.NEGATIVE
-//        }
-//    }
+    private fun setupResultType(assetsEntities: List<AssetEntity>) {
+        val totalInvested = assetsEntities.sumOf { it.totalInvestmentAsset.toDouble() }
+        val totalToday = assetsEntities.sumOf { it.price.toDouble() }
+        val difference = totalToday - totalInvested
+
+        resultType = when {
+            difference == 0.0 -> ResultType.SAME
+            difference > 0.0 -> ResultType.POSITIVE
+            else -> ResultType.NEGATIVE
+        }
+    }
+
+    private fun walletAssetsFormatter(assetsEntities: List<AssetEntity>) {
+        val formattedAssets = assetsEntities.map {
+            WalletAssetFormatter(it)
+        }
+        this.walletAssets = formattedAssets
+    }
+}
+
+class WalletAssetFormatter(
+    val symbol: String,
+    val name: String,
+    val icon: String,
+    var totalAssetInvested: String,
+    var currencyAssetPrice: String,
+    var totalAssetProfit: String,
+    var variationAsset: String,
+    var resultType: ResultType) {
+
+    enum class ResultType {
+        POSITIVE,
+        NEGATIVE,
+        SAME
+    }
+
+    constructor(assetEntity: AssetEntity) : this(
+        symbol = assetEntity.symbol.toString(),
+        name = assetEntity.name,
+        icon = assetEntity.icon.toString(),
+        totalAssetInvested = "${String.format("%,.2f", assetEntity.totalInvestmentAsset.toDouble())}",
+        currencyAssetPrice = "${String.format("%,.2f", assetEntity.price.toDouble())}",
+        totalAssetProfit = "${String.format("%,.2f", (assetEntity.price.toDouble() - assetEntity.totalInvestmentAsset.toDouble()))}",
+        "",
+        resultType = ResultType.SAME
+    ) {
+        setupResultType(assetEntity)
+        calculateVariation(assetEntity)
+    }
+
+    private fun setupResultType(assets: AssetEntity) {
+        val totalInvested = assets.totalInvestmentAsset
+        val totalToday = assets.price
+        val difference = totalToday.toDouble() - totalInvested.toDouble()
+
+        resultType = when {
+            difference == 0.0 -> ResultType.SAME
+            difference > 0.0 -> ResultType.POSITIVE
+            else -> ResultType.NEGATIVE
+        }
+    }
+
+    private fun calculateVariation(asset: AssetEntity) {
+        val totalInvested = asset.totalInvestmentAsset.toDouble()
+        val currencyPrice = asset.price.toDouble()
+        var variation = ((currencyPrice - totalInvested) / totalInvested) * 100
+
+        if (variation < 0) {
+            this.variationAsset = "-${String.format("%,.0f", -variation)}%"
+        } else {
+            this.variationAsset = "${String.format("%,.0f", variation)}%"
+        }
+    }
 }

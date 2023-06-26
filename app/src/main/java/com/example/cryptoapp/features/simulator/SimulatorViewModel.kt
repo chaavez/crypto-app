@@ -69,7 +69,6 @@ class SimulatorViewModel(
             existingAsset.price = (existingAsset.price.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
             existingAsset.amount = (existingAsset.amount.toDouble() + currentAmount.toDouble()).toString()
             assetEntityRepository.updateAsset(existingAsset)
-            assetEntityRepository.updateTotalInvestment()
         } else {
             val totalInvestmentAsset = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
             val totalInvestment = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
@@ -88,8 +87,7 @@ class SimulatorViewModel(
                 )
             )
         }
-        assetEntityRepository.updateTotalInvestment()
-        Toast.makeText(context, "Ativo salva com sucesso", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Ativo salvo com sucesso", Toast.LENGTH_SHORT).show()
     }
 
     private fun validateAmount(): Boolean {
@@ -98,7 +96,7 @@ class SimulatorViewModel(
     }
 
     private fun validateDate(): Boolean {
-        val regex = """^([0-2]\d|3[0-1])/(0[1-9]|1[0-2])/20(2[0-2]|23)$""".toRegex()
+        val regex = """^([0-2]\d|3[0-1])/(0[1-9]|1[0-2])/20(1[2-9]|2[0-3])$""".toRegex()
         return regex.matches(currentDate)
     }
 

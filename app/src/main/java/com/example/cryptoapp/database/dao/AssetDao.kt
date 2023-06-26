@@ -13,9 +13,6 @@ interface AssetDao {
     @Query("SELECT * FROM assets")
     fun getAllAssets(): Flow<List<AssetEntity>>
 
-    @Query("SELECT SUM(price) FROM assets")
-    fun getTotalInvestment(): Flow<Double>
-
     @Query("SELECT * FROM assets WHERE name = :name")
     suspend fun getAssetByName(name: String): AssetEntity?
 
@@ -24,17 +21,4 @@ interface AssetDao {
 
     @Delete
     suspend fun delete(assetEntity: AssetEntity)
-
-    @Transaction
-    suspend fun updateTotalInvestment() {
-        val assets = getAllAssets().first()
-        val totalInvestment = assets.sumOf { assetEntity ->
-            assetEntity.price.toDouble()
-        }
-
-        assets.forEach { asset ->
-            asset.totalInvestment = totalInvestment.toString()
-            updateAsset(asset)
-        }
-    }
 }

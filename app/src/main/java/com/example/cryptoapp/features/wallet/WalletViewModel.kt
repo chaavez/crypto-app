@@ -93,11 +93,13 @@ class WalletFormatter(
         val currencyPrice = assetsEntities.sumOf {
             it.price.toDouble()
         }
-        var variation = ((totalInvested - currencyPrice) / totalInvested) * 100
-        if (currencyPrice < totalInvested) {
-            variation *= -1
+        var variation = ((currencyPrice - totalInvested) / totalInvested) * 100
+
+        if (variation < 0) {
+            this.variationPercentage = "-${String.format("%,.0f", -variation)}%"
+        } else {
+            this.variationPercentage = "${String.format("%,.0f", variation)}%"
         }
-        this.variationPercentage = "${String.format("%,.0f", variation)}%"
     }
 
     private fun setupResultType(assetsEntities: List<AssetEntity>) {

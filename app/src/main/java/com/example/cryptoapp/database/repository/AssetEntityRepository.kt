@@ -17,10 +17,6 @@ class AssetEntityRepository(private val assetDao: AssetDao) {
         return assetDao.getAssetByName(name)
     }
 
-    suspend fun updateTotalInvestment() {
-        assetDao.updateTotalInvestment()
-    }
-
     suspend fun updateAsset(assetEntity: AssetEntity) {
         assetDao.updateAsset(assetEntity)
     }

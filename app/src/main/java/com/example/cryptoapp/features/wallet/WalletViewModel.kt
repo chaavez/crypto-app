@@ -142,9 +142,9 @@ class WalletAssetFormatter(
         symbol = assetEntity.symbol.toString(),
         name = assetEntity.name,
         icon = assetEntity.icon.toString(),
-        totalAssetInvested = "${String.format("%,.2f", assetEntity.totalInvestmentAsset.toDouble())}",
-        currencyAssetPrice = "${String.format("%,.2f", assetEntity.price.toDouble())}",
-        totalAssetProfit = "${String.format("%,.2f", (assetEntity.price.toDouble() - assetEntity.totalInvestmentAsset.toDouble()))}",
+        totalAssetInvested = "R$ ${String.format("%,.2f", assetEntity.totalInvestmentAsset.toDouble())}",
+        currencyAssetPrice = "R$ ${String.format("%,.2f", assetEntity.price.toDouble())}",
+        totalAssetProfit = "R$ ${String.format("%,.2f", (assetEntity.price.toDouble() - assetEntity.totalInvestmentAsset.toDouble()))}",
         "",
         resultType = ResultType.SAME
     ) {

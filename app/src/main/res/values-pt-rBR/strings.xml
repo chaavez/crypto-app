@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--App-->
     <string name="app_name">cryptoapp</string>
@@ -11,7 +12,6 @@
     <string name="home_title">Home</string>
     <string name="most_valued">Mais valorizadas</string>
     <string name="highlights">Destaques</string>
-
     <!--Simulator-->
     <string name="simulator_title">Simulador</string>
     <string name="simulator_amount">Quantidade</string>
@@ -36,6 +36,7 @@
     <string name="invested">Investido</string>
     <string name="profit">Lucro</string>
     <string name="current">Atual</string>
+
     <!--Error-->
     <string name="error_tittle">Erro!</string>
     <string name="error_content">Algo inesperado aconteceu, por favor tente novamente</string>
@@ -43,5 +44,4 @@
     <string name="invalid_amount">Digite uma quantidade valida</string>
     <string name="error_message_asset">Parece que nessa data a moeda não existia</string>
     <string name="error_message_asset2">Por favor tente outra data</string>
-
 </resources>

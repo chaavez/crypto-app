@@ -62,7 +62,7 @@ class SimulatorFragment : Fragment(), SearchAssetFragmentListener {
         maskedDate()
         observeViewModel()
         setupState()
-        //viewModel.loadFirstAsset() somente para não gastar os requests diários
+        viewModel.loadFirstAsset()
     }
 
     private fun setupLayout() {

@@ -1,11 +1,10 @@
-package com.example.cryptoapp.common.fragments.Loading
+package com.example.cryptoapp.common.fragments.loading
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.cryptoapp.common.models.Asset
 import com.example.cryptoapp.databinding.FragmentLoadingBinding
 
 class LoadingFragment : Fragment() {
@@ -23,7 +22,6 @@ class LoadingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         startProgressBarIndicator()
     }
 

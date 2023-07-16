@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
+import com.example.cryptoapp.common.fragments.loading.LoadingFragment
 import com.example.cryptoapp.common.fragments.error.ErrorFragment
 import com.example.cryptoapp.common.fragments.error.ErrorFragmentListener
 import com.example.cryptoapp.common.models.Asset

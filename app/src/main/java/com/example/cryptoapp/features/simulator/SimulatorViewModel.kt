@@ -1,15 +1,21 @@
 package com.example.cryptoapp.features.simulator
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.common.models.Asset
+import com.example.cryptoapp.database.entity.AssetEntity
+import com.example.cryptoapp.database.repository.AssetEntityRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SimulatorViewModel(private val repository: SimulatorRepository) : ViewModel() {
+class SimulatorViewModel(
+    private val repository: SimulatorRepository,
+    private val assetEntityRepository: AssetEntityRepository
+) : ViewModel() {
     private var currentAmount: String = ""
     private var currentDate: String = ""
     private val defaultAssetSymbol: String = "BTC"
@@ -18,6 +24,8 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
 
     private val _currentAsset = MutableLiveData<Asset>()
     val asset: LiveData<Asset> = _currentAsset
+
+    private var currentOldAsset: Asset? = null
 
     private val _onAmountError = MutableLiveData<String?>()
     val onAmountError: LiveData<String?> = _onAmountError
@@ -54,13 +62,41 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
         checkFields()
     }
 
+    suspend fun insertAssetInWallet(context: Context) {
+        val existingAsset = assetEntityRepository.getAssetByName(asset.value?.name ?: "")
+        if (existingAsset != null) {
+            existingAsset.totalInvestmentAsset = (existingAsset.totalInvestmentAsset.toDouble() + ((currentOldAsset?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            existingAsset.price = (existingAsset.price.toDouble() + ((asset.value?.price ?: 0.0) * currentAmount.toDouble())).toString()
+            existingAsset.amount = (existingAsset.amount.toDouble() + currentAmount.toDouble()).toString()
+            assetEntityRepository.updateAsset(existingAsset)
+        } else {
+            val totalInvestmentAsset = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
+            val totalInvestment = (currentOldAsset?.price ?: 0.0) * currentAmount.toDouble()
+            val totalCurrencyPrice = (asset.value?.price ?: 0.0) * currentAmount.toDouble()
+            assetEntityRepository.insertAsset(
+                AssetEntity(
+                    asset.value?.symbol,
+                    asset.value?.name ?: "",
+                    asset.value?.icon,
+                    totalCurrencyPrice.toString(),
+                    totalInvestmentAsset.toString(),
+                    totalInvestment.toString(),
+                    asset.value?.variation.toString(),
+                    currentAmount,
+                    currentDate,
+                )
+            )
+        }
+        Toast.makeText(context, "Ativo salvo com sucesso", Toast.LENGTH_SHORT).show()
+    }
+
     private fun validateAmount(): Boolean {
-        val regex = """^(?!0$)(0|[1-9][0-999999999999]*)(\.[0-9]+)?${'$'}""".toRegex()
+        val regex = """^(?!0$)(0|[1-9][\d9]*)(\.\d+)?${'$'}""".toRegex()
         return regex.matches(currentAmount)
     }
 
     private fun validateDate(): Boolean {
-        val regex = """^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(20[0-9]{2}|20[0-9]{2})$""".toRegex()
+        val regex = """^([0-2]\d|3[0-1])/(0[1-9]|1[0-2])/20(1[2-9]|2[0-3])$""".toRegex()
         return regex.matches(currentDate)
     }
 
@@ -69,6 +105,7 @@ class SimulatorViewModel(private val repository: SimulatorRepository) : ViewMode
             viewState.value = SimulatorFragment.State.LOADING
             _currentAsset.value?.let { currentAsset ->
                 repository.fetchAsset(currentAsset.symbol, convertDate(currentDate), { oldAsset ->
+                    currentOldAsset = oldAsset
                     assetPricesFormatter.value = AssetPricesFormatter(currentDate, oldAsset, currentAsset, currentAmount)
                     viewState.value = SimulatorFragment.State.TO_SAVE
                 }, {

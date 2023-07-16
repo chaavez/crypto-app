@@ -30,6 +30,13 @@
 
     <!--Wallet-->
     <string name="wallet_title">Carteira</string>
+    <string name="my_assets">My assets</string>
+    <string name="total_invested">Total invested</string>
+    <string name="total_today">Total today</string>
+    <string name="total_profit">Total profit</string>
+    <string name="invested">Invested</string>
+    <string name="profit">Profit</string>
+    <string name="current">Current</string>
 
     <!--Error-->
     <string name="error_tittle">Error!</string>

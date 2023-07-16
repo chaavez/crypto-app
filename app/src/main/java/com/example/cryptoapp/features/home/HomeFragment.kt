@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.cryptoapp.R
-import com.example.cryptoapp.common.fragments.Loading.LoadingFragment
 import com.example.cryptoapp.common.fragments.highlights.HighlightsFragment
 import com.example.cryptoapp.common.fragments.mostValued.MostValuedFragment
 import com.example.cryptoapp.databinding.FragmentHomeBinding
-import com.example.cryptoapp.main.MainActivity
 
 class HomeFragment : Fragment() {
     private lateinit var _binding: FragmentHomeBinding
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +24,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupLayout()
         setupFragments()
     }
